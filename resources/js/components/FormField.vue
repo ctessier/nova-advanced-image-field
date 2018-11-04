@@ -27,11 +27,12 @@
                 :guides="true"
                 :view-mode="2"
                 drag-mode="crop"
-                :auto-crop-area="0.5"
-                :min-container-width="250"
-                :min-container-height="180"
+                :min-container-width="700"
+                :min-container-height="500"
+                :auto-crop-area="1"
                 :background="true"
                 :rotatable="true"
+                :aspect-ratio="field.aspectRatio || NaN"
                 :src="imgSrc"
                 alt=""
             />
@@ -67,7 +68,9 @@ export default {
         this.field.fill = formData => {
             if (this.file) {
                 formData.append(this.field.attribute, this.file, this.fileName)
-                formData.append(this.field.attribute + '_data', JSON.stringify(this.$refs.cropper.getData(true)))
+                if (this.field.croppable) {
+                    formData.append(this.field.attribute + '_data', JSON.stringify(this.$refs.cropper.getData(true)))
+                }
             }
         }
     },
@@ -93,16 +96,18 @@ export default {
                 return;
             }
 
-            if (typeof FileReader === 'function') {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    this.imgSrc = event.target.result;
-                    // rebuild cropperjs with the updated source
-                    this.$refs.cropper.replace(event.target.result);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert('Sorry, FileReader API not supported');
+            if (this.field.croppable) {
+                if (typeof FileReader === 'function') {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        this.imgSrc = event.target.result;
+                        // rebuild cropperjs with the updated source
+                        this.$refs.cropper.replace(event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Sorry, FileReader API not supported');
+                }
             }
         },
     },

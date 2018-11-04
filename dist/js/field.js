@@ -11579,7 +11579,7 @@ var content = __webpack_require__(16);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(17)("bf8b16d4", content, false, {});
+var update = __webpack_require__(17)("2b388863", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -12216,6 +12216,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -12244,7 +12245,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.field.fill = function (formData) {
             if (_this.file) {
                 formData.append(_this.field.attribute, _this.file, _this.fileName);
-                formData.append(_this.field.attribute + '_data', JSON.stringify(_this.$refs.cropper.getData(true)));
+                if (_this.field.croppable) {
+                    formData.append(_this.field.attribute + '_data', JSON.stringify(_this.$refs.cropper.getData(true)));
+                }
             }
         };
     },
@@ -12273,16 +12276,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            if (typeof FileReader === 'function') {
-                var reader = new FileReader();
-                reader.onload = function (event) {
-                    _this2.imgSrc = event.target.result;
-                    // rebuild cropperjs with the updated source
-                    _this2.$refs.cropper.replace(event.target.result);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert('Sorry, FileReader API not supported');
+            if (this.field.croppable) {
+                if (typeof FileReader === 'function') {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        _this2.imgSrc = event.target.result;
+                        // rebuild cropperjs with the updated source
+                        _this2.$refs.cropper.replace(event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Sorry, FileReader API not supported');
+                }
             }
         }
     },
@@ -28557,11 +28562,12 @@ var render = function() {
               guides: true,
               "view-mode": 2,
               "drag-mode": "crop",
-              "auto-crop-area": 0.5,
-              "min-container-width": 250,
-              "min-container-height": 180,
+              "min-container-width": 700,
+              "min-container-height": 500,
+              "auto-crop-area": 1,
               background: true,
               rotatable: true,
+              "aspect-ratio": _vm.field.aspectRatio || NaN,
               src: _vm.imgSrc,
               alt: ""
             }
