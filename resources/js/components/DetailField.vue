@@ -36,7 +36,7 @@
                 >
                     <icon class="mr-2" type="download" view-box="0 0 24 24" width="16" height="16" />
                     <span class="class mt-1">
-                        Download
+                        {{ __('Download') }}
                     </span>
                 </a>
             </p>
