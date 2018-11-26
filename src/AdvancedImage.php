@@ -65,7 +65,7 @@ class AdvancedImage extends File
         parent::__construct($name, $attribute, $disk, $storageCallback);
 
         // Initialize ImageMagick
-        Image::configure(['driver' => 'imagick']);
+        Image::configure(['driver' => 'gd']);
 
         $this->thumbnail(function () {
             return $this->value ? Storage::disk($this->disk)->url($this->value) : null;
