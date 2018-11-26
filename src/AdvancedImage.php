@@ -151,6 +151,7 @@ class AdvancedImage extends File
     private function handleResize($image, $width, $height)
     {
         $image->resize($width, $height, function ($constraint) {
+            $constraint->upsize();
             $constraint->aspectRatio();
         });
     }
