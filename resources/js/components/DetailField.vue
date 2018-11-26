@@ -2,7 +2,7 @@
     <panel-item :field="field">
         <div slot="value">
             <template v-if="shouldShowLoader">
-                <ImageLoader :src="field.thumbnailUrl" class="max-w-xs" @missing="(value) => missing = value" />
+                <image-loader :src="field.thumbnailUrl" class="max-w-xs" @missing="(value) => missing = value" />
             </template>
 
             <template v-if="field.value && !field.thumbnailUrl">
@@ -11,16 +11,6 @@
 
             <span v-if="!field.value && !field.thumbnailUrl">&mdash;</span>
             <span v-if="deleted">&mdash;</span>
-
-            <portal to="modals">
-                <transition name="fade">
-                    <confirm-upload-removal-modal
-                        v-if="removeModalOpen"
-                        @confirm="removeFile"
-                        @close="closeRemoveModal"
-                    />
-                </transition>
-            </portal>
 
             <p
                 v-if="shouldShowToolbar"
@@ -45,18 +35,18 @@
 </template>
 
 <script>
-import ImageLoader from './ImageLoader'
+import ImageLoader from '@/components/Image/ImageLoader'
 
 export default {
-    props: ['resource', 'resourceName', 'resourceId', 'field'],
+    props: ['field', 'resourceId', 'resourceName'],
 
     components: { ImageLoader },
 
-    data: () => ({ removeModalOpen: false, missing: false, deleted: false }),
+    data: () => ({ missing: false, deleted: false }),
 
     methods: {
         /**
-         * Download the linked file
+         * Download the linked image
          */
         download() {
             const { resourceName, resourceId } = this
@@ -66,38 +56,6 @@ export default {
             link.href = `/nova-api/${resourceName}/${resourceId}/download/${attribute}`
             link.download = 'download'
             link.click()
-        },
-
-        /**
-         * Confirm removal of the linked file
-         */
-        confirmRemoval() {
-            this.removeModalOpen = true
-        },
-
-        /**
-         * Close the upload removal modal
-         */
-        closeRemoveModal() {
-            this.removeModalOpen = false
-        },
-
-        /**
-         * Remove the linked file from storage
-         */
-        async removeFile() {
-            const { resourceName, resourceId } = this
-            const attribute = this.field.attribute
-
-            try {
-                await Nova.request().delete(
-                    `/nova-api/${resourceName}/${resourceId}/field/${attribute}`
-                )
-                this.closeRemoveModal()
-                this.deleted = true
-            } catch (error) {
-                this.closeRemoveModal()
-            }
         },
     },
 

@@ -1,15 +1,15 @@
 <template>
     <div v-if="hasValue" class="mb-6">
         <template v-if="shouldShowLoader">
-            <ImageLoader :src="field.thumbnailUrl" class="max-w-xs" @missing="(value) => missing = value" />
+            <image-loader :src="field.thumbnailUrl" class="max-w-xs" @missing="(value) => missing = value" />
         </template>
 
         <template v-if="field.value && !field.thumbnailUrl">
             <card class="flex item-center relative border border-lg border-50 overflow-hidden p-4">
                 {{ field.value }}
 
-                <DeleteButton
-                    :dusk="field.attribute + '-internal-delete-link'"
+                <Button
+                    type="delete"
                     class="ml-auto"
                     v-if="shouldShowRemoveButton"
                     @click="confirmRemoval"
@@ -21,15 +21,15 @@
             v-if="field.thumbnailUrl"
             class="mt-3 flex items-center text-sm"
         >
-            <DeleteButton
-                :dusk="field.attribute + '-delete-link'"
+            <Button
+                type="delete"
                 v-if="shouldShowRemoveButton"
                 @click="confirmRemoval"
             >
                 <span class="class ml-2 mt-1">
                     {{__('Delete')}}
                 </span>
-            </DeleteButton>
+            </Button>
         </p>
 
         <portal to="modals">
@@ -45,13 +45,15 @@
 </template>
 
 <script>
-import ImageLoader from './ImageLoader'
-import DeleteButton from './DeleteButton.vue'
+import { Errors } from 'laravel-nova'
+
+import Button from '@/components/Button/Button'
+import ImageLoader from '@/components/Image/ImageLoader'
 
 export default {
-    components: { DeleteButton, ImageLoader },
+    components: { Button, ImageLoader },
 
-    props: ['field'],
+    props: ['field', 'resourceId', 'resourceName', 'relatedResourceId', 'relatedResourceName', 'viaRelationship'],
 
     data: () => ({
         removeModalOpen: false,
@@ -106,7 +108,9 @@ export default {
                 }
             }
         },
+    },
 
+    computed: {
         /**
          * Determine whether the field has a value
          */

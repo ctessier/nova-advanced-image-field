@@ -1,7 +1,39 @@
 <template>
     <default-field :field="field" :errors="errors">
         <template slot="field">
-            <image-viewer :field="field" />
+            <image-viewer
+                v-show="!imgSrc"
+                :field="field"
+                :resourceId="resourceId"
+                :resourceName="resourceName"
+                :relatedResourceId="relatedResourceId"
+                :relatedResourceName="relatedResourceName"
+                :viaRelationship="viaRelationship"
+            ></image-viewer>
+
+            <vue-cropper
+                v-if="field.croppable"
+                v-show="imgSrc"
+                class="mb-4"
+                ref='cropper'
+                :view-mode="1"
+                :aspect-ratio="field.aspectRatio || NaN"
+                :src="imgSrc"
+            ></vue-cropper>
+
+            <p
+                v-if="imgSrc"
+                class="mt-3 mb-6 flex items-center text-sm"
+            >
+                <Button
+                    type="restore"
+                    @click="cancel"
+                >
+                    <span class="class ml-2 mt-1">
+                        {{__('Cancel')}}
+                    </span>
+                </Button>
+            </p>
 
             <span class="form-file mr-4">
                 <input
@@ -14,28 +46,12 @@
                     @change="fileChange"
                 />
                 <label :for="labelFor" class="form-file-btn btn btn-default btn-primary">
-                    {{__('Choose File')}}
+                    {{imgSrc ? __('Change File') : __('Choose File')}}
                 </label>
             </span>
             <span class="text-gray-50">
                 {{ currentLabel }}
             </span>
-
-            <VueCropper
-                v-show="imgSrc"
-                ref='cropper'
-                :guides="true"
-                :view-mode="2"
-                drag-mode="crop"
-                :min-container-width="700"
-                :min-container-height="500"
-                :auto-crop-area="1"
-                :background="true"
-                :rotatable="true"
-                :aspect-ratio="field.aspectRatio || NaN"
-                :src="imgSrc"
-                alt=""
-            />
 
             <p v-if="hasError" class="text-xs mt-2 text-danger">
                 {{ firstError }}
@@ -45,44 +61,55 @@
 </template>
 
 <script>
-import ImageViewer from './ImageViewer'
-import VueCropper from 'vue-cropperjs';
+import VueCropper from 'vue-cropperjs'
 import { FormField, HandlesValidationErrors, Errors } from 'laravel-nova'
 
+import Button from '@/components/Button/Button'
+import ImageViewer from '@/components/Image/ImageViewer'
+
 export default {
-    props: ['resourceId', 'relatedResourceName', 'relatedResourceId', 'viaRelationship'],
+    props: ['field', 'resourceId', 'resourceName', 'relatedResourceId', 'relatedResourceName', 'viaRelationship'],
 
     mixins: [HandlesValidationErrors, FormField],
 
-    components: { ImageViewer, VueCropper },
+    components: { VueCropper, Button, ImageViewer },
 
     data: () => ({
-        file: null,
-        label: 'no file selected',
-        fileName: '',
-        uploadErrors: new Errors(),
         imgSrc: '',
+        file: null,
+        fileName: '',
+        label: 'no file selected',
+        uploadErrors: new Errors(),
     }),
 
-    mounted() {
-        this.field.fill = formData => {
+    methods: {
+        /**
+         * Fill the attributes on form submit
+         */
+        fill(formData) {
             if (this.file) {
                 formData.append(this.field.attribute, this.file, this.fileName)
                 if (this.field.croppable) {
                     formData.append(this.field.attribute + '_data', JSON.stringify(this.$refs.cropper.getData(true)))
                 }
             }
-        }
-    },
-
-    methods: {
-
-        fill(formData) {
-            this.field.fill(formData)
         },
 
         /**
-         * Responsd to the file change
+         * Cancel the new selected image
+         */
+        cancel() {
+            if (this.field.croppable) {
+                this.$refs.cropper.destroy()
+            }
+            this.imgSrc = ''
+            this.file = null
+            this.fileName = ''
+        },
+
+        /**
+         * Respond to the file change
+         * Set the data and init the crop box if the image is croppable
          */
         fileChange(e) {
             let path = e.target.value
@@ -90,33 +117,38 @@ export default {
             this.fileName = fileName
             this.file = this.$refs.fileField.files[0]
 
-            const file = e.target.files[0];
+            const file = e.target.files[0]
             if (!file.type.includes('image/')) {
-                alert('Please select an image file');
-                return;
+                alert('Please select an image file')
+                return
             }
 
             if (this.field.croppable) {
                 if (typeof FileReader === 'function') {
-                    const reader = new FileReader();
+                    const reader = new FileReader()
                     reader.onload = (event) => {
-                        this.imgSrc = event.target.result;
-                        // rebuild cropperjs with the updated source
-                        this.$refs.cropper.replace(event.target.result);
-                    };
-                    reader.readAsDataURL(file);
+                        this.imgSrc = event.target.result
+                        this.$refs.cropper.replace(event.target.result)
+                    }
+                    reader.readAsDataURL(file)
                 } else {
-                    alert('Sorry, FileReader API not supported');
+                    alert('Sorry, FileReader API not supported')
                 }
             }
         },
     },
 
     computed: {
+        /**
+         * Determine whether the image field has errors
+         */
         hasError() {
             return this.uploadErrors.has(this.fieldAttribute)
         },
 
+        /**
+         * The first error, if any, of the image field
+         */
         firstError() {
             if (this.hasError) {
                 return this.uploadErrors.first(this.fieldAttribute)
@@ -124,25 +156,24 @@ export default {
         },
 
         /**
-         * The current label of the file field
+         * The current label of the image field
          */
         currentLabel() {
             return this.fileName || this.label
         },
 
         /**
-         * The ID attribute to use for the file field
+         * The ID attribute to use for the image field
          */
         idAttr() {
             return this.labelFor
         },
 
         /**
-         * The label attribute to use for the file field
-         * @return {[type]} [description]
+         * The label attribute to use for the image field
          */
         labelFor() {
-            return `file-${this.field.attribute}`
+            return `advanced-image-${this.field.attribute}`
         },
     },
 }
