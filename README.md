@@ -1,5 +1,8 @@
 # Nova Advanced Image Field
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
+[![Total Downloads](https://img.shields.io/packagist/dt/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
+
 This package provides an advanced image field for Nova resources allowing you to upload, crop and resize any image.
 
 It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) in the frontend and GD/Imagick and [Intervention Image](http://image.intervention.io) in the backend.
