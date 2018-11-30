@@ -62,6 +62,9 @@ class Post extends Resource
 
             // Show a cropbox and resize the image
             AdvancedImage::make('photo')->croppable()->resize(400, 300),
+
+            // Store to AWS S3
+            AdvancedImage::make('photo')->disk('s3'),
         ];
     }
 }

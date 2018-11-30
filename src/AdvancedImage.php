@@ -131,7 +131,7 @@ class AdvancedImage extends File
 
             $image->stream();
             $fileName = $request->{$this->attribute}->hashName();
-            Storage::disk($this->disk)->put($fileName, $image);
+            Storage::disk($this->disk)->put($fileName, $image->__toString());
             $image->destroy();
 
             $model->{$attribute} = $fileName;
