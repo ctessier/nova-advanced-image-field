@@ -165,12 +165,8 @@ class AdvancedImage extends File
     public function meta()
     {
         return array_merge([
-            'thumbnailUrl' => $this->resolveThumbnailUrl(),
-            'previewUrl'   => call_user_func($this->previewUrlCallback),
-            'downloadable' => isset($this->downloadResponseCallback) && !empty($this->value),
-            'deletable'    => isset($this->deleteCallback) && $this->deletable,
-            'croppable'    => $this->croppable,
-            'aspectRatio'  => $this->cropAspectRatio,
-        ], $this->meta);
+            'croppable'   => $this->croppable,
+            'aspectRatio' => $this->cropAspectRatio,
+        ], parent::meta());
     }
 }

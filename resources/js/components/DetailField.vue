@@ -2,14 +2,14 @@
     <panel-item :field="field">
         <div slot="value">
             <template v-if="shouldShowLoader">
-                <image-loader :src="field.thumbnailUrl" class="max-w-xs" @missing="(value) => missing = value" />
+                <image-loader :src="field.previewUrl" class="max-w-xs" @missing="(value) => missing = value" />
             </template>
 
-            <template v-if="field.value && !field.thumbnailUrl">
+            <template v-if="field.value && !field.previewUrl">
                 {{ field.value }}
             </template>
 
-            <span v-if="!field.value && !field.thumbnailUrl">&mdash;</span>
+            <span v-if="!field.value && !field.previewUrl">&mdash;</span>
             <span v-if="deleted">&mdash;</span>
 
             <p
@@ -62,14 +62,14 @@ export default {
     computed: {
         hasValue() {
             return (
-                Boolean(this.field.value || this.field.thumbnailUrl) &&
+                Boolean(this.field.value || this.field.previewUrl) &&
                 !Boolean(this.deleted) &&
                 !Boolean(this.missing)
             )
         },
 
         shouldShowLoader() {
-            return !Boolean(this.deleted) && Boolean(this.field.thumbnailUrl)
+            return !Boolean(this.deleted) && Boolean(this.field.previewUrl)
         },
 
         shouldShowToolbar() {
