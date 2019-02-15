@@ -1,5 +1,6 @@
 # Nova Advanced Image Field
 
+[![StyleCI](https://github.styleci.io/repos/156091175/shield?branch=0.2)](https://github.styleci.io/repos/156091175)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
 [![Total Downloads](https://img.shields.io/packagist/dt/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
 
