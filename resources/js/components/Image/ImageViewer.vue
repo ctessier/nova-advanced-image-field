@@ -1,10 +1,10 @@
 <template>
     <div v-if="hasValue" class="mb-6">
         <template v-if="shouldShowLoader">
-            <image-loader :src="field.thumbnailUrl" class="max-w-xs" @missing="(value) => missing = value" />
+            <image-loader :src="field.previewUrl" class="max-w-xs" @missing="(value) => missing = value" />
         </template>
 
-        <template v-if="field.value && !field.thumbnailUrl">
+        <template v-if="field.value && !field.previewUrl">
             <card class="flex item-center relative border border-lg border-50 overflow-hidden p-4">
                 {{ field.value }}
 
@@ -18,7 +18,7 @@
         </template>
 
         <p
-            v-if="field.thumbnailUrl"
+            v-if="field.previewUrl"
             class="mt-3 flex items-center text-sm"
         >
             <Button
@@ -116,7 +116,7 @@ export default {
          */
         hasValue() {
             return (
-                Boolean(this.field.value || this.field.thumbnailUrl) &&
+                Boolean(this.field.value || this.field.previewUrl) &&
                 !Boolean(this.deleted) &&
                 !Boolean(this.missing)
             )
