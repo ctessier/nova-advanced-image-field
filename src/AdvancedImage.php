@@ -2,10 +2,10 @@
 
 namespace Ctessier\NovaAdvancedImageField;
 
-use Laravel\Nova\Fields\File;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Intervention\Image\ImageManagerStatic as Image;
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AdvancedImage extends File
 {
@@ -33,14 +33,14 @@ class AdvancedImage extends File
     /**
      * The width for the resizing of the image.
      *
-     * @var integer
+     * @var int
      */
     public $width;
 
     /**
      * The height for the resizing of the image.
      *
-     * @var integer
+     * @var int
      */
     public $height;
 
@@ -54,10 +54,11 @@ class AdvancedImage extends File
     /**
      * Create a new field.
      *
-     * @param  string  $name
-     * @param  string|null  $attribute
-     * @param  string|null  $disk
-     * @param  callable|null  $storageCallback
+     * @param string        $name
+     * @param string|null   $attribute
+     * @param string|null   $disk
+     * @param callable|null $storageCallback
+     *
      * @return void
      */
     public function __construct($name, $attribute = null, $disk = 'public', $storageCallback = null)
@@ -78,7 +79,8 @@ class AdvancedImage extends File
      * If a numeric value is given as a first parameter, it will be used to define a fixed aspect
      * ratio for the crop box.
      *
-     * @param  mixed  $param
+     * @param mixed $param
+     *
      * @return $this
      */
     public function croppable($param = true)
@@ -104,10 +106,11 @@ class AdvancedImage extends File
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  string  $requestAttribute
-     * @param  object  $model
-     * @param  string  $attribute
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param string                                  $requestAttribute
+     * @param object                                  $model
+     * @param string                                  $attribute
+     *
      * @return void
      */
     protected function fillAttribute(NovaRequest $request, $requestAttribute, $model, $attribute)
@@ -140,10 +143,9 @@ class AdvancedImage extends File
         Storage::disk($this->disk)->delete($previousFileName);
     }
 
-
     private function handleCrop($image, $request)
     {
-        $cropperData = json_decode($request->{$this->attribute . '_data'});
+        $cropperData = json_decode($request->{$this->attribute.'_data'});
         $image->crop($cropperData->width, $cropperData->height, $cropperData->x, $cropperData->y);
     }
 
@@ -164,11 +166,11 @@ class AdvancedImage extends File
     {
         return array_merge([
             'thumbnailUrl' => $this->resolveThumbnailUrl(),
-            'previewUrl' => call_user_func($this->previewUrlCallback),
-            'downloadable' => isset($this->downloadResponseCallback) && ! empty($this->value),
-            'deletable' => isset($this->deleteCallback) && $this->deletable,
-            'croppable' => $this->croppable,
-            'aspectRatio' => $this->cropAspectRatio,
+            'previewUrl'   => call_user_func($this->previewUrlCallback),
+            'downloadable' => isset($this->downloadResponseCallback) && !empty($this->value),
+            'deletable'    => isset($this->deleteCallback) && $this->deletable,
+            'croppable'    => $this->croppable,
+            'aspectRatio'  => $this->cropAspectRatio,
         ], $this->meta);
     }
 }

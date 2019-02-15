@@ -1,5 +1,6 @@
 # Nova Advanced Image Field
 
+[![StyleCI](https://github.styleci.io/repos/156091175/shield?branch=0.2)](https://github.styleci.io/repos/156091175)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
 [![Total Downloads](https://img.shields.io/packagist/dt/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
 
@@ -7,7 +8,7 @@ This package provides an advanced image field for Nova resources allowing you to
 
 It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) in the frontend and GD/Imagick and [Intervention Image](http://image.intervention.io) in the backend.
 
-![screenshot of the advanced image field](https://github.com/ctessier/nova-advanced-image-field/blob/develop/screenshot.png?raw=true)
+![screenshot of the advanced image field](https://github.com/ctessier/nova-advanced-image-field/blob/0.2/screenshot.png?raw=true)
 
 ## Requirements
 

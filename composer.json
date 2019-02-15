@@ -1,9 +1,14 @@
 {
     "name": "ctessier/nova-advanced-image-field",
-    "description": "An advanced image field for Nova.",
+    "description": "An advanced image field for Nova with crop and resize.",
     "keywords": [
         "laravel",
         "nova",
+        "image",
+        "crop",
+        "resize",
+        "image crop",
+        "image resize",
         "advanced",
         "advanced image",
         "advanced image field"
