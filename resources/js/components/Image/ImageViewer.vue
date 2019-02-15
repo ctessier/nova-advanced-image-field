@@ -99,7 +99,7 @@ export default {
                 await Nova.request().delete(uri)
                 this.closeRemoveModal()
                 this.deleted = true
-                this.$emit('file-deleted')
+                this.$emit('image-deleted')
             } catch (error) {
                 this.closeRemoveModal()
 
