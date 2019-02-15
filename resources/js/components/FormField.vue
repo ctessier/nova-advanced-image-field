@@ -2,6 +2,7 @@
     <default-field :field="field" :errors="errors">
         <template slot="field">
             <image-viewer
+                @image-deleted="imageDeleted"
                 v-show="!imgSrc"
                 :field="field"
                 :resourceId="resourceId"
@@ -135,6 +136,14 @@ export default {
                     alert('Sorry, FileReader API not supported')
                 }
             }
+        },
+
+        /**
+         * Inform the parent component that the file has been deleted
+         * This event allows to update the `lastRetrievedAt` timestamp for further model changes
+         */
+        imageDeleted() {
+            this.$emit('file-deleted')
         },
     },
 
