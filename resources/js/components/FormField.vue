@@ -79,7 +79,6 @@ export default {
         imgSrc: '',
         file: null,
         fileName: '',
-        label: 'no file selected',
         uploadErrors: new Errors(),
     }),
 
@@ -120,7 +119,7 @@ export default {
 
             const file = e.target.files[0]
             if (!file.type.includes('image/')) {
-                alert('Please select an image file')
+                alert(this.__('Please select an image file'))
                 return
             }
 
@@ -133,7 +132,7 @@ export default {
                     }
                     reader.readAsDataURL(file)
                 } else {
-                    alert('Sorry, FileReader API not supported')
+                    alert(this.__('Sorry, FileReader API not supported'))
                 }
             }
         },
@@ -168,7 +167,7 @@ export default {
          * The current label of the image field
          */
         currentLabel() {
-            return this.fileName || this.label
+            return this.fileName || this.__('no file selected')
         },
 
         /**
