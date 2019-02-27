@@ -2,7 +2,7 @@
 
 [![StyleCI](https://github.styleci.io/repos/156091175/shield?branch=1.0)](https://github.styleci.io/repos/156091175)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
-[![Total Downloads](https://img.shields.io/packagist/dt/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
+[![Total Downloads](https://img.shields.io/packagist/dt/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field) [![Greenkeeper badge](https://badges.greenkeeper.io/ctessier/nova-advanced-image-field.svg)](https://greenkeeper.io/)
 
 This package provides an advanced image field for Nova resources allowing you to upload, crop and resize any image.
 
