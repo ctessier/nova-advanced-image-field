@@ -133,7 +133,11 @@ class AdvancedImage extends File
             }
 
             $image->stream();
-            $fileName = $request->{$this->attribute}->hashName();
+            if ($this->storagePath === '/') {
+                $fileName = $request->{$this->attribute}->hashName();
+            } else {
+                $fileName = trim($this->storagePath, '/') . '/' . $request->{$this->attribute}->hashName();
+            }            
             Storage::disk($this->disk)->put($fileName, $image->__toString());
             $image->destroy();
 
