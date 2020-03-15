@@ -10,7 +10,7 @@
 
 ### Fixed
 
-- Fix use of `->path()` to specify a custom subdirectory ([#29](https://github.com/ctessier/nova-advanced-image-field/pull/29)). Thanks @[mathd](https://github.com/mathd)!
+- Fix use of `->path()` to specify a custom subdirectory ([#29](https://github.com/ctessier/nova-advanced-image-field/pull/29)). Thanks [mathd](https://github.com/mathd)!
 
 ## [v1.0.1](https://github.com/ctessier/nova-advanced-image-field/compare/v1.0.0...v1.0.1)
 
@@ -18,7 +18,7 @@
 
 ### Added
 
-- Improve localization ([#17](https://github.com/ctessier/nova-advanced-image-field/pull/17)). Thanks @[mziraki](https://github.com/mziraki)!
+- Improve localization ([#17](https://github.com/ctessier/nova-advanced-image-field/pull/17)). Thanks [mziraki](https://github.com/mziraki)!
 
 ## [v1.0.0](https://github.com/ctessier/nova-advanced-image-field/compare/v0.2.0...v1.0.0)
 
