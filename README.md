@@ -6,7 +6,7 @@
 
 This package provides an advanced image field for Nova resources allowing you to upload, crop and resize any image.
 
-It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) in the frontend and GD/Imagick and [Intervention Image](http://image.intervention.io) in the backend.
+It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) in the frontend and GD and [Intervention Image](http://image.intervention.io) in the backend.
 
 ![screenshot of the advanced image field](https://github.com/ctessier/nova-advanced-image-field/blob/1.0/screenshot.png?raw=true)
 
@@ -15,7 +15,6 @@ It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropper
 - Laravel & Nova
 - Fileinfo Extension
 - GD Library (>=2.0)
-- Imagick PHP extension (>=6.5.7)
 
 ## Installation
 
@@ -27,7 +26,7 @@ composer require ctessier/nova-advanced-image-field
 
 ## Usage
 
-`AdvancedImage` extends from `File` so you can use any methods that `File` implements. See the documentation [here](https://nova.laravel.com/docs/1.0/resources/file-fields.html).
+`AdvancedImage` extends from `File` so you can use any methods that `File` implements. See the documentation [here](https://nova.laravel.com/docs/2.0/resources/fields.html#file-field).
 
 ```php
 <?php
@@ -66,6 +65,9 @@ class Post extends Resource
 
             // Store to AWS S3
             AdvancedImage::make('photo')->disk('s3'),
+
+            // Specify a custom subdirectory
+            AdvancedImage::make('photo')->disk('s3')->path('image'),
         ];
     }
 }
