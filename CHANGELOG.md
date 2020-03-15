@@ -1,5 +1,17 @@
 # Release Notes
 
+## [v1.0.2](https://github.com/ctessier/nova-advanced-image-field/compare/v1.0.1...v1.0.2)
+
+> Released 2020/03/15
+
+### Added
+
+- This very CHANGELOG file
+
+### Fixed
+
+- Fix use of `->path()` to specify a custom subdirectory ([#29](https://github.com/ctessier/nova-advanced-image-field/pull/29)). Thanks [mathd](https://github.com/mathd)!
+
 ## [v1.0.1](https://github.com/ctessier/nova-advanced-image-field/compare/v1.0.0...v1.0.1)
 
 > Released 2019/02/26
