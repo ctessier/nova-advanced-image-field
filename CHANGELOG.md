@@ -10,7 +10,7 @@
 
 ### Fixed
 
-- Fix use of `->path()` to specify a custom subdirectory #29. Thanks @mathd!
+- Fix use of `->path()` to specify a custom subdirectory ([#29](https://github.com/ctessier/nova-advanced-image-field/pull/29)). Thanks @mathd!
 
 ## [v1.0.1](https://github.com/ctessier/nova-advanced-image-field/compare/v1.0.0...v1.0.1)
 
@@ -18,7 +18,7 @@
 
 ### Added
 
-- Improve localization #17. Thanks @maziraki!
+- Improve localization ([#17](https://github.com/ctessier/nova-advanced-image-field/pull/17)). Thanks @maziraki!
 
 ## [v1.0.0](https://github.com/ctessier/nova-advanced-image-field/compare/v0.2.0...v1.0.0)
 
@@ -26,7 +26,7 @@
 
 ### Changed
 
-- Use of `previewUrl` instead of `thumbnailUrl` in the Detail and Form component #12.
+- Use of `previewUrl` instead of `thumbnailUrl` in the Detail and Form component ([#12](https://github.com/ctessier/nova-advanced-image-field/pull/12)).
 
 ## [v0.2.0](https://github.com/ctessier/nova-advanced-image-field/compare/v0.1.1...v0.2.0)
 
@@ -34,7 +34,7 @@
 
 ### Fixed
 
-- Fix 409 Conflict when deleting the file #5.
+- Fix 409 Conflict when deleting the file ([#5](https://github.com/ctessier/nova-advanced-image-field/pull/5)).
 
 ## [v0.1.1](https://github.com/ctessier/nova-advanced-image-field/compare/v0.1.0...v0.1.1)
 
@@ -42,4 +42,4 @@
 
 ### Added
 
-- Add S3 filesystem upload support #1.
+- Add S3 filesystem upload support ([#1](https://github.com/ctessier/nova-advanced-image-field/pull/1)).
