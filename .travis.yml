@@ -10,6 +10,7 @@ before_install:
   - pip install --user codecov
 install:
   - echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${NOVA_USERNAME}\",\"password\":\"${NOVA_PASSWORD}\"}}}" > auth.json
+  - cat auth.json
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source
