@@ -8,6 +8,8 @@ env:
     - secure: Q29xx5iOuaA8cpSX+SKugekseTdfDVJ4SYatta/mJkGwlI7d3lDfSyXska7DcV08raDoVPHNNv6q0Engwpay5OZmolre9SKQJhvv4ZxI1hEEB60CaPcnbOY0Cg6etNJecMdDGgqac9FrYYBGn+/wnFlLPOZuZBaQMdqR0PIeFtOGcGuqoEvqElM+vaBheyVblOhTiz813B+znTPKXhMC+E6cXWi8olVxul7VRV3psfmQGpF4DAgfrslLWDMtTve1QK3xNPJ86bK/XPjCkgmebhbQYZPmgz+wrl/bmc2z/UR4GmDKqvP2xat6tqbRwSE42gPdhb3yxzlhMh0JlLtP5nhjsOC+ZgPojc943vy4tfIPzuwdGu+2tKrMKbpNtNj/fv9UsWXBBl8YrxF4kkypME05R/B9bbgZ60gVqN7s9kNVIfpiLVnt798rb3jVfZNqPDv/CrZARNESmmbP5dpyF2zwYCRRUubcjBSjfxwNZNgFoGfOgiE397+19iWrX5TqgQfCdtYOxqJHmWYuDC1bKF10u+uCXMQz93dMMxhSJ5gXItfyy9CE6PNmc251o8aipTG3uoAV+/7EyZ6yNtkvjP9aWgIziBF9wIyiJPMMkFAa9abx9DRv6fh9xrQk8IiGfFf4siRq6vQSUwmvcwN+wl7nEubP7tr897vdTb2llqA=
 before_install:
   - pip install --user codecov
+install:
+  - echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${NOVA_USERNAME}\",\"password\":\"${NOVA_PASSWORD}\"}}}" > auth.json
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source
