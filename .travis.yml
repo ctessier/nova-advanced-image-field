@@ -16,6 +16,6 @@ before_script:
   - travis_retry npm install
 script:
   - npm run production
-  - vendor/bin/phpunit -c phpunit.xml --coverage-clover=coverage.xml
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
 after_script:
   - codecov
