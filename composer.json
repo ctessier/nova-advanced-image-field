@@ -1,6 +1,8 @@
 {
     "name": "ctessier/nova-advanced-image-field",
     "description": "An advanced image field for Nova with crop and resize.",
+    "license": "MIT",
+    "homepage": "https://github.com/ctessier/nova-advanced-image-field",
     "keywords": [
         "laravel",
         "nova",
@@ -13,9 +15,22 @@
         "advanced image",
         "advanced image field"
     ],
-    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Clément Tessier",
+            "email": "clement.tessier@ymail.com",
+            "role": "Maintainer"
+        }
+    ],
     "require": {
         "php": ">=7.1.0",
+        "laravel/nova": "^3.0",
         "intervention/image": "^2.4"
     },
     "require-dev": {
@@ -24,6 +39,11 @@
     "autoload": {
         "psr-4": {
             "Ctessier\\NovaAdvancedImageField\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ctessier\\NovaAdvancedImageField\\Tests\\": "tests/"
         }
     },
     "extra": {

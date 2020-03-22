@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Ctessier\NovaAdvancedImageField\Tests;
 
 use PHPUnit\Framework\TestCase;
 

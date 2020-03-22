@@ -2,14 +2,18 @@ language: php
 php:
   - 7.2
   - 7.3
+env:
+  global:
+    - secure: Rv3eZaei66XuTK65Nzx1Z5BMHP3qZCJBlzDQYo4uZrJf0wOMA5ViJo9e1rZhgCua04wkf2dR7ZbX4okasy8Rwz2FAvBn0DRbn/zdahSfOJmqa9tfoxlClDZgFDpGlfMfDsta9vXbp7y6cWtw2tSHJd+9opGLbwOmdAcJ2VOlaw+OUAtcUbPL1LsUOGovUvhjfErUz4Ezo/uJYdhaKVf6aO3Y8Zs5R2i+u199OWBz1hnFlivIEAegI2OM+WdQewap/MKlxePAtiXWR8sZWgBAGlK8rIPTMRSdSnXOxOF+7Aw/58zfUt7etDerteTEJjVT3WHuVYkAPpNxV8fkuUW51yX48d3XUAaxFf/5KFD2bw073Hhv6IhX8sE7GR+yihzhhJ89ckTFi5hJjT3dlQv2vQPaLucvBRNcp335wvjJkhNZE/+3e/eXkkSjlcYiN9MvP8VjASwPyHC9QbsnZqXFSRSfbB6C0FnWZ43jAxosYG19/1cZH1Ny4szmiSqAZIBqJrAjrsgq8dgR2/tIXZ5+dAp6V0L6k80M6/CwdCZzQNRdGJosUKegFtSlznkG49XDzKMnHHxPJcd+azBLrJ4maBiTW3JjbXI80aWZg1c/Cz3S1Lhy664A/VM1uGYhl3ki7OIbRoFQ80gt739pAh4XmM1RCu25P5ItbtXlCNTR1K8=
+    - secure: Q29xx5iOuaA8cpSX+SKugekseTdfDVJ4SYatta/mJkGwlI7d3lDfSyXska7DcV08raDoVPHNNv6q0Engwpay5OZmolre9SKQJhvv4ZxI1hEEB60CaPcnbOY0Cg6etNJecMdDGgqac9FrYYBGn+/wnFlLPOZuZBaQMdqR0PIeFtOGcGuqoEvqElM+vaBheyVblOhTiz813B+znTPKXhMC+E6cXWi8olVxul7VRV3psfmQGpF4DAgfrslLWDMtTve1QK3xNPJ86bK/XPjCkgmebhbQYZPmgz+wrl/bmc2z/UR4GmDKqvP2xat6tqbRwSE42gPdhb3yxzlhMh0JlLtP5nhjsOC+ZgPojc943vy4tfIPzuwdGu+2tKrMKbpNtNj/fv9UsWXBBl8YrxF4kkypME05R/B9bbgZ60gVqN7s9kNVIfpiLVnt798rb3jVfZNqPDv/CrZARNESmmbP5dpyF2zwYCRRUubcjBSjfxwNZNgFoGfOgiE397+19iWrX5TqgQfCdtYOxqJHmWYuDC1bKF10u+uCXMQz93dMMxhSJ5gXItfyy9CE6PNmc251o8aipTG3uoAV+/7EyZ6yNtkvjP9aWgIziBF9wIyiJPMMkFAa9abx9DRv6fh9xrQk8IiGfFf4siRq6vQSUwmvcwN+wl7nEubP7tr897vdTb2llqA=
 before_install:
   - pip install --user codecov
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source
-  - npm install
-  - npm run production
+  - travis_retry npm install
 script:
+  - npm run production
   - vendor/bin/phpunit --coverage-clover=coverage.xml
 after_script:
   - codecov
