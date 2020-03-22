@@ -10,13 +10,12 @@ before_install:
   - pip install --user codecov
 install:
   - echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${NOVA_USERNAME}\",\"password\":\"${NOVA_PASSWORD}\"}}}" > auth.json
-  - echo $NOVA_USERNAME
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source
   - travis_retry npm install
 script:
   - npm run production
-  - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - vendor/bin/phpunit -c phpunit.xml --coverage-clover=coverage.xml
 after_script:
   - codecov
