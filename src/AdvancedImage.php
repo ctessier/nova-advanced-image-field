@@ -121,7 +121,7 @@ class AdvancedImage extends File
 
         $previousFileName = $model->{$attribute};
 
-        if (!$this->croppable && !$this->width && !$this->height) {
+        if (! $this->croppable && ! $this->width && ! $this->height) {
             parent::fillAttribute($request, $requestAttribute, $model, $attribute);
         } else {
             $image = Image::make($request->{$this->attribute});
