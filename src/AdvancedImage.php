@@ -54,10 +54,11 @@ class AdvancedImage extends File
     /**
      * Create a new field.
      *
-     * @param  string         $name
-     * @param  string|null    $attribute
-     * @param  string|null    $disk
-     * @param  callable|null  $storageCallback
+     * @param string        $name
+     * @param string|null   $attribute
+     * @param string|null   $disk
+     * @param callable|null $storageCallback
+     *
      * @return void
      */
     public function __construct($name, $attribute = null, $disk = 'public', $storageCallback = null)
@@ -78,7 +79,8 @@ class AdvancedImage extends File
      * If a numeric value is given as a first parameter, it will be used to define a fixed aspect
      * ratio for the crop box.
      *
-     * @param  mixed  $param
+     * @param mixed $param
+     *
      * @return $this
      */
     public function croppable($param = true)
@@ -96,8 +98,9 @@ class AdvancedImage extends File
     /**
      * Specify the size (width and height) the image should be resized to.
      *
-     * @param  int|null  $width
-     * @param  int|null  $height
+     * @param int|null $width
+     * @param int|null $height
+     *
      * @return $this
      */
     public function resize($width = null, $height = null)
@@ -111,10 +114,11 @@ class AdvancedImage extends File
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  string                                   $requestAttribute
-     * @param  object                                   $model
-     * @param  string                                   $attribute
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param string                                  $requestAttribute
+     * @param object                                  $model
+     * @param string                                  $attribute
+     *
      * @return void
      */
     protected function fillAttribute(NovaRequest $request, $requestAttribute, $model, $attribute)
@@ -154,8 +158,9 @@ class AdvancedImage extends File
     /**
      * Crop the uploaded image.
      *
-     * @param  \Intervention\Image\Image                $image
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Intervention\Image\Image               $image
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     *
      * @return void
      */
     private function handleCrop($image, $request)
@@ -167,9 +172,10 @@ class AdvancedImage extends File
     /**
      * Resize the uploaded image.
      *
-     * @param  \Intervention\Image\Image  $image
-     * @param  int|null                   $width
-     * @param  int|null                   $height
+     * @param \Intervention\Image\Image $image
+     * @param int|null                  $width
+     * @param int|null                  $height
+     *
      * @return void
      */
     private function handleResize($image, $width, $height)
