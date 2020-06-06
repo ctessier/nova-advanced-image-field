@@ -168,7 +168,7 @@ export default {
          * The current label of the image field
          */
         currentLabel() {
-            return this.fileName || this.__('no file selected (oops)')
+            return this.fileName || this.__('no file selected')
         },
 
         /**
