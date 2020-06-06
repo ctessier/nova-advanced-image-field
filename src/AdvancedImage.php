@@ -95,6 +95,14 @@ class AdvancedImage extends File
         return $this;
     }
 
+    /**
+     * Specify the size (width and height) the image should be resized to.
+     *
+     * @param int|null $width
+     * @param int|null $height
+     *
+     * @return $this
+     */
     public function resize($width = null, $height = null)
     {
         $this->width = $width;
@@ -147,12 +155,29 @@ class AdvancedImage extends File
         Storage::disk($this->disk)->delete($previousFileName);
     }
 
+    /**
+     * Crop the uploaded image.
+     *
+     * @param \Intervention\Image\Image               $image
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     *
+     * @return void
+     */
     private function handleCrop($image, $request)
     {
         $cropperData = json_decode($request->{$this->attribute.'_data'});
         $image->crop($cropperData->width, $cropperData->height, $cropperData->x, $cropperData->y);
     }
 
+    /**
+     * Resize the uploaded image.
+     *
+     * @param \Intervention\Image\Image $image
+     * @param int|null                  $width
+     * @param int|null                  $height
+     *
+     * @return void
+     */
     private function handleResize($image, $width, $height)
     {
         $image->resize($width, $height, function ($constraint) {
