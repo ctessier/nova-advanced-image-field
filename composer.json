@@ -16,7 +16,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.1.0",
-        "intervention/image": "^2.4"
+        "intervention/image": "^2.5"
     },
     "autoload": {
         "psr-4": {

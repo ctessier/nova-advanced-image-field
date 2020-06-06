@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import 'cropperjs/dist/cropper.css'
 import VueCropper from 'vue-cropperjs'
 import { FormField, HandlesValidationErrors, Errors } from 'laravel-nova'
 
@@ -167,7 +168,7 @@ export default {
          * The current label of the image field
          */
         currentLabel() {
-            return this.fileName || this.__('no file selected')
+            return this.fileName || this.__('no file selected (oops)')
         },
 
         /**
