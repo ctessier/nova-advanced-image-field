@@ -136,7 +136,6 @@ trait TransformableImage
         $this->image->save();
     }
 
-
     /**
      * Crop the image.
      *
