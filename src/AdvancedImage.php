@@ -87,9 +87,9 @@ class AdvancedImage extends File
      *
      * @param string $driver
      *
-     * @return $this
-     *
      * @throws \Exception
+     *
+     * @return $this
      */
     public function driver(string $driver)
     {
