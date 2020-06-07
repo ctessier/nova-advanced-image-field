@@ -134,6 +134,7 @@ trait TransformableImage
         }
 
         $this->image->save();
+        $this->image->destroy();
     }
 
     /**
