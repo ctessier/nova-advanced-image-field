@@ -7,6 +7,7 @@
 ### Added
 
 - Possibility to choose between `gd` or `imagick` image processing library ([#43](https://github.com/ctessier/nova-advanced-image-field/pull/43)).
+- License file ([#37](https://github.com/ctessier/nova-advanced-image-field/pull/37)). Thanks [james-staffs](https://github.com/james-staffs)!
 
 ### Internal
 
