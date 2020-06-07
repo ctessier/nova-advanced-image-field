@@ -1,5 +1,17 @@
 # Release Notes
 
+## [v1.1.0](https://github.com/ctessier/nova-advanced-image-field/compare/v1.0.2...v1.1.0)
+
+> Released 2020/06/07
+
+### Added
+
+- Possibility to choose between `gd` or `imagick` image processing library ([#43](https://github.com/ctessier/nova-advanced-image-field/pull/43)).
+
+### Internal
+
+- Upgrade package dependencies ([#40](https://github.com/ctessier/nova-advanced-image-field/pull/40)).
+
 ## [v1.0.2](https://github.com/ctessier/nova-advanced-image-field/compare/v1.0.1...v1.0.2)
 
 > Released 2020/03/15
