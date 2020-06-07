@@ -3,18 +3,25 @@
 [![StyleCI](https://github.styleci.io/repos/156091175/shield?branch=1.0)](https://github.styleci.io/repos/156091175)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
 [![Total Downloads](https://img.shields.io/packagist/dt/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
+[![License](https://img.shields.io/github/license/ctessier/nova-advanced-image-field?color=%23B2878B&style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
 
 This package provides an advanced image field for Nova resources allowing you to upload, crop and resize any image.
 
-It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) in the frontend and GD and [Intervention Image](http://image.intervention.io) in the backend.
+It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) in the frontend and [Intervention Image](http://image.intervention.io) in the backend.
 
 ![screenshot of the advanced image field](https://github.com/ctessier/nova-advanced-image-field/blob/1.0/screenshot.png?raw=true)
 
 ## Requirements
 
+To work correctly, this package requires the following components:
 - Laravel & Nova
 - Fileinfo Extension
-- GD Library (>=2.0)
+
+And **one of** the following libraries:
+- GD Library >=2.0 (used by default)
+- Imagick PHP extension >=6.5.7
+
+See [Intervention requirements](http://image.intervention.io/getting_started/installation) for more details.
 
 ## Installation
 
@@ -23,6 +30,9 @@ Install the package into a Laravel application with Nova using Composer:
 ```bash
 composer require ctessier/nova-advanced-image-field
 ```
+
+If you want to use Imagick as the default image processing library, follow the [Intervention documentation for Laravel](http://image.intervention.io/getting_started/installation#laravel).
+This will provide you with a new configuration file where you can specify the driver you want.
 
 ## Usage
 
@@ -62,6 +72,9 @@ class Post extends Resource
 
             // Show a cropbox and resize the image
             AdvancedImage::make('photo')->croppable()->resize(400, 300),
+
+            // Override the image processing driver for this field only
+            AdvancedImage::make('photo')->driver('imagick')->croppable(),
 
             // Store to AWS S3
             AdvancedImage::make('photo')->disk('s3'),

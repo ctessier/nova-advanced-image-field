@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import 'cropperjs/dist/cropper.css'
 import VueCropper from 'vue-cropperjs'
 import { FormField, HandlesValidationErrors, Errors } from 'laravel-nova'
 

@@ -3,7 +3,7 @@
 namespace Ctessier\NovaAdvancedImageField;
 
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\Facades\Image;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -15,6 +15,16 @@ class AdvancedImage extends File
      * @var string
      */
     public $component = 'advanced-image-field';
+
+    /**
+     * The driver library to use for image manipulation.
+     *
+     * This value will override the driver configured for Intervention
+     * in the `config/image.php` file of the Laravel project.
+     *
+     * @var string|null
+     */
+    public $driver = null;
 
     /**
      * Indicates if the image is croppable.
@@ -65,13 +75,31 @@ class AdvancedImage extends File
     {
         parent::__construct($name, $attribute, $disk, $storageCallback);
 
-        Image::configure(['driver' => 'gd']);
-
         $this->thumbnail(function () {
             return $this->value ? Storage::disk($this->disk)->url($this->value) : null;
         })->preview(function () {
             return $this->value ? Storage::disk($this->disk)->url($this->value) : null;
         });
+    }
+
+    /**
+     * Override the default driver to be used by Intervention for the image manipulation.
+     *
+     * @param string $driver
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function driver(string $driver)
+    {
+        if (!in_array($driver, ['gd', 'imagick'])) {
+            throw new \Exception("The driver \"$driver\" is not a valid Intervention driver.");
+        }
+
+        $this->driver = $driver;
+
+        return $this;
     }
 
     /**
@@ -95,6 +123,14 @@ class AdvancedImage extends File
         return $this;
     }
 
+    /**
+     * Specify the size (width and height) the image should be resized to.
+     *
+     * @param int|null $width
+     * @param int|null $height
+     *
+     * @return $this
+     */
     public function resize($width = null, $height = null)
     {
         $this->width = $width;
@@ -124,9 +160,14 @@ class AdvancedImage extends File
         if (!$this->croppable && !$this->width && !$this->height) {
             parent::fillAttribute($request, $requestAttribute, $model, $attribute);
         } else {
+            if ($this->driver) {
+                Image::configure([
+                    'driver' => $this->driver,
+                ]);
+            }
             $image = Image::make($request->{$this->attribute});
             if ($this->croppable) {
-                $this->handleCrop($image, $request);
+                $this->handleCrop($image, json_decode($request->{$this->attribute.'_data'}));
             }
             if ($this->width || $this->height) {
                 $this->handleResize($image, $this->width, $this->height);
@@ -147,12 +188,28 @@ class AdvancedImage extends File
         Storage::disk($this->disk)->delete($previousFileName);
     }
 
-    private function handleCrop($image, $request)
+    /**
+     * Crop the uploaded image.
+     *
+     * @param \Intervention\Image\Image $image
+     * @param object                    $cropperData
+     *
+     * @return void
+     */
+    private function handleCrop($image, $cropperData)
     {
-        $cropperData = json_decode($request->{$this->attribute.'_data'});
         $image->crop($cropperData->width, $cropperData->height, $cropperData->x, $cropperData->y);
     }
 
+    /**
+     * Resize the uploaded image.
+     *
+     * @param \Intervention\Image\Image $image
+     * @param int|null                  $width
+     * @param int|null                  $height
+     *
+     * @return void
+     */
     private function handleResize($image, $width, $height)
     {
         $image->resize($width, $height, function ($constraint) {
