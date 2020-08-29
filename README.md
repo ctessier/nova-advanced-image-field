@@ -14,7 +14,7 @@ It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropper
 ## Requirements
 
 To work correctly, this package requires the following components:
-- Laravel & Nova
+- Laravel & Nova (2 or 3)
 - Fileinfo Extension
 
 And **one of** the following libraries:
@@ -36,7 +36,7 @@ This will provide you with a new configuration file where you can specify the dr
 
 ## Usage
 
-`AdvancedImage` extends from `File` so you can use any methods that `File` implements. See the documentation [here](https://nova.laravel.com/docs/2.0/resources/fields.html#file-field).
+`AdvancedImage` extends from `Image` so you can use any methods that `Image` implements. See the documentation [here](https://nova.laravel.com/docs/3.0/resources/file-fields.html).
 
 ```php
 <?php
@@ -44,6 +44,7 @@ This will provide you with a new configuration file where you can specify the dr
 namespace App\Nova;
 
 // ...
+use Illuminate\Http\Request;
 use Ctessier\NovaAdvancedImageField\AdvancedImage;
 
 class Post extends Resource
@@ -56,31 +57,40 @@ class Post extends Resource
             // ...
 
             // Simple image upload
-            AdvancedImage::make('photo'),
+            AdvancedImage::make('Photo'),
 
             // Show a cropbox with a free ratio
-            AdvancedImage::make('photo')->croppable(),
+            AdvancedImage::make('Photo')->croppable(),
 
             // Show a cropbox with a fixed ratio
-            AdvancedImage::make('photo')->croppable(16/9),
+            AdvancedImage::make('Photo')->croppable(16/9),
 
             // Resize the image to a max width
-            AdvancedImage::make('photo')->resize(1920),
+            AdvancedImage::make('Photo')->resize(1920),
 
             // Resize the image to a max height
-            AdvancedImage::make('photo')->resize(null, 1080),
+            AdvancedImage::make('Photo')->resize(null, 1080),
 
             // Show a cropbox and resize the image
-            AdvancedImage::make('photo')->croppable()->resize(400, 300),
+            AdvancedImage::make('Photo')->croppable()->resize(400, 300),
 
             // Override the image processing driver for this field only
-            AdvancedImage::make('photo')->driver('imagick')->croppable(),
+            AdvancedImage::make('Photo')->driver('imagick')->croppable(),
 
             // Store to AWS S3
-            AdvancedImage::make('photo')->disk('s3'),
+            AdvancedImage::make('Photo')->disk('s3'),
 
             // Specify a custom subdirectory
-            AdvancedImage::make('photo')->disk('s3')->path('image'),
+            AdvancedImage::make('Photo')->croppable()->disk('s3')->path('image'),
+
+            // Store custom attributes
+            AdvancedImage::make('Photo')->croppable()->store(function (Request $request, $model) {
+                return [
+                    'photo' => $request->photo->store('/', 's3'),
+                    'photo_name' => $request->photo->getClientOriginalName(),
+                    'photo_size' => $request->photo->getSize(),
+                ];
+            }),
         ];
     }
 }
