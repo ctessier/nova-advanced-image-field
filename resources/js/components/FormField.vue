@@ -44,6 +44,7 @@
                     type="file"
                     :id="idAttr"
                     name="name"
+                    :accept="field.acceptedTypes"
                     @change="fileChange"
                 />
                 <label :for="labelFor" class="form-file-btn btn btn-default btn-primary">
