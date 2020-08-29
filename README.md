@@ -87,8 +87,8 @@ class Post extends Resource
             AdvancedImage::make('Photo')->croppable()->store(function (Request $request, $model) {
                 return [
                     'photo' => $request->photo->store('/', 's3'),
+                    'photo_mime' => $request->photo->getMimeType(),
                     'photo_name' => $request->photo->getClientOriginalName(),
-                    'photo_size' => $request->photo->getSize(),
                 ];
             }),
         ];
