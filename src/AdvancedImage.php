@@ -3,10 +3,10 @@
 namespace Ctessier\NovaAdvancedImageField;
 
 use Illuminate\Support\Facades\Storage;
-use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class AdvancedImage extends File
+class AdvancedImage extends Image
 {
     use TransformableImage;
 
@@ -18,11 +18,11 @@ class AdvancedImage extends File
     public $component = 'advanced-image-field';
 
     /**
-     * Indicates if the element should be shown on the index view.
+     * Indicates whether the image should be fully rounded or not.
      *
      * @var bool
      */
-    public $showOnIndex = true;
+    public $rounded = true;
 
     /**
      * Create a new field.
@@ -71,15 +71,15 @@ class AdvancedImage extends File
     }
 
     /**
-     * Get additional meta information to merge with the element payload.
+     * Prepare the field element for JSON serialization.
      *
      * @return array
      */
-    public function meta()
+    public function jsonSerialize()
     {
-        return array_merge([
+        return array_merge(parent::jsonSerialize(), [
             'croppable'   => $this->croppable,
             'aspectRatio' => $this->cropAspectRatio,
-        ], parent::meta());
+        ]);
     }
 }
