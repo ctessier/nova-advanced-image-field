@@ -1,5 +1,10 @@
 <template>
-    <default-field :field="field" :errors="errors">
+    <default-field
+        :field="field"
+        :errors="errors"
+        :full-width-content="true"
+        :show-help-text="!isReadonly && showHelpText"
+    >
         <template slot="field">
             <image-viewer
                 @image-deleted="imageDeleted"
