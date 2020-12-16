@@ -33,6 +33,9 @@
     "config": {
         "sort-packages": true
     },
+    "suggest": {
+        "ext-exif": "Required to orientate images automatically."
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
