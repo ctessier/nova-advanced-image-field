@@ -16,16 +16,21 @@
                 :relatedResourceName="relatedResourceName"
                 :viaRelationship="viaRelationship"
             ></image-viewer>
+            
+            <template v-if="field.croppable" v-show="imgSrc">
+                <div v-if="isRange" class="max-w-xl mb-4">
+                    <img :src="imgSrc" :alt="filename" ref="cropper">
+                </div>
 
-            <vue-cropper
-                v-if="field.croppable"
-                v-show="imgSrc"
-                class="mb-4"
-                ref='cropper'
-                :view-mode="1"
-                :aspect-ratio="field.aspectRatio || NaN"
-                :src="imgSrc"
-            ></vue-cropper>
+                <vue-cropper
+                    v-else
+                    class="mb-4"
+                    ref='cropper'
+                    :view-mode="1"
+                    :aspect-ratio="field.aspectRatio || NaN"
+                    :src="imgSrc"
+                ></vue-cropper>
+            </template>
 
             <p
                 v-if="imgSrc"
@@ -70,6 +75,7 @@
 <script>
 import 'cropperjs/dist/cropper.css'
 import VueCropper from 'vue-cropperjs'
+import Cropper from 'cropperjs'
 import { FormField, HandlesValidationErrors, Errors } from 'laravel-nova'
 
 import Button from '@/components/Button/Button'
@@ -89,7 +95,42 @@ export default {
         uploadErrors: new Errors(),
     }),
 
+    mounted() {
+        if (this.field.croppable && this.isRange)
+            this.cropper = this.cropperWithMinMaxAspectRatio()
+    },
+
     methods: {
+        /**
+         * Build a Cropper instance with a minimum and maxium aspect ratio
+         */
+        cropperWithMinMaxAspectRatio() {
+            let minAspectRatio = parseFloat(this.field.aspectRatio)
+            let maxAspectRatio = parseFloat(this.field.maxAspectRatio)
+
+            return new Cropper(this.$refs.cropper, {
+                cropmove(event) {
+                    if (isNaN(minAspectRatio) || isNaN(maxAspectRatio)) {
+                        return
+                    }
+
+                    let cropBoxData = this.cropper.getCropBoxData()
+                    let cropBoxWidth = cropBoxData.width
+                    let aspectRatio = cropBoxWidth / cropBoxData.height
+
+                    if (aspectRatio < minAspectRatio) {
+                        this.cropper.setCropBoxData({
+                            height: cropBoxWidth / minAspectRatio
+                        })
+                    } else if (aspectRatio > maxAspectRatio) {
+                        this.cropper.setCropBoxData({
+                            height: cropBoxWidth / maxAspectRatio
+                        })
+                    }
+                }
+            })
+        },
+
         /**
          * Fill the attributes on form submit
          */
@@ -97,7 +138,7 @@ export default {
             if (this.file) {
                 formData.append(this.field.attribute, this.file, this.fileName)
                 if (this.field.croppable) {
-                    formData.append(this.field.attribute + '_data', JSON.stringify(this.$refs.cropper.getData(true)))
+                    formData.append(this.field.attribute + '_data', JSON.stringify(this.cropperObj.getData(true)))
                 }
             }
         },
@@ -107,7 +148,7 @@ export default {
          */
         cancel() {
             if (this.field.croppable) {
-                this.$refs.cropper.destroy()
+                this.cropperObj.destroy()
             }
             this.imgSrc = ''
             this.file = null
@@ -135,7 +176,7 @@ export default {
                     const reader = new FileReader()
                     reader.onload = (event) => {
                         this.imgSrc = event.target.result
-                        this.$refs.cropper.replace(event.target.result)
+                        this.cropperObj.replace(event.target.result)
                     }
                     reader.readAsDataURL(file)
                 } else {
@@ -190,6 +231,20 @@ export default {
         labelFor() {
             return `advanced-image-${this.field.attribute}`
         },
+
+        /**
+         * Is the aspect ratio provided a range?
+         */
+        isRange() {
+            return this.maxAspectRatio !== null
+        },
+
+        /*
+         * Get the cropper object
+         */
+        cropperObj() {
+            return this.isRange ? this.cropper : this.$refs.cropper
+        }
     },
 }
 </script>
