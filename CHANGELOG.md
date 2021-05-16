@@ -1,5 +1,20 @@
 # Release Notes
 
+## [v1.3.0](https://github.com/ctessier/nova-advanced-image-field/compare/v1.2.1...v1.3.0)
+
+> Released 2021/05/16
+
+### New Features
+
+- Introduce the `AdvancedAvatar` class to use the image as an avatar / cover art in search results ([@ctessier](https://github.com/ctessier) in [#65](https://github.com/ctessier/nova-advanced-image-field/pull/65)).
+- Implement auto-orientation from image Exif data ([@rbnhtl](https://github.com/rbnhtl) in [#61](https://github.com/ctessier/nova-advanced-image-field/pull/61)).
+
+### Changed
+
+- Improve documentation
+- Remove unused CSS files
+- Added an `alt` attribute on the index vue's image
+
 ## [v1.2.1](https://github.com/ctessier/nova-advanced-image-field/compare/v1.2.0...v1.2.1)
 
 > Released 2020/10/25
