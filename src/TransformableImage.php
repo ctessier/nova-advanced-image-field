@@ -32,6 +32,13 @@ trait TransformableImage
     private $cropAspectRatio;
 
     /**
+     * The maximum aspect ratio of the crop box.
+     *
+     * @var float
+     */
+    private $maxCropAspectRatio;
+
+    /**
      * The width for the resizing of the image.
      *
      * @var int
@@ -88,11 +95,15 @@ trait TransformableImage
      *
      * @return $this
      */
-    public function croppable($param = true)
+    public function croppable($param = true, $maxAspectRatio = null)
     {
         if (is_numeric($param)) {
             $this->cropAspectRatio = $param;
             $param = true;
+        }
+
+        if (is_numeric($maxAspectRatio)) {
+            $this->maxCropAspectRatio = $maxAspectRatio;
         }
 
         $this->croppable = $param;
@@ -150,7 +161,9 @@ trait TransformableImage
             return;
         }
 
-        $this->image = Image::make($uploadedFile->getPathName());
+        $pathName = $uploadedFile->getPathName();
+
+        $this->image = Image::make($pathName);
 
         if ($this->autoOrientate) {
             $this->orientateImage();
@@ -164,7 +177,7 @@ trait TransformableImage
             $this->resizeImage();
         }
 
-        $this->image->save();
+        $this->image->save($pathName);
         $this->image->destroy();
     }
 
@@ -177,7 +190,33 @@ trait TransformableImage
      */
     private function cropImage(object $cropperData)
     {
-        $this->image->crop($cropperData->width, $cropperData->height, $cropperData->x, $cropperData->y);
+        $image = $this->image;
+        $width = $image->width();
+        $height = $image->height();
+        $x = $cropperData->x;
+        $y = $cropperData->y;
+
+        if ($width < $cropperData->width + abs($x) || $x < 0 ||
+            $height < $cropperData->height + abs($y) || $y < 0) {
+            $canvasWidth = abs($x) + $cropperData->width;
+            $canvasHeight = abs($y) + $cropperData->height;
+
+            $bg = Image::canvas($canvasWidth, $canvasHeight);
+            $bg->fill('#ffffff');
+
+            $insertX = abs(($x - abs($x)) / 2);
+            $insertY = abs(($y - abs($y)) / 2);
+
+            $x = abs(($x + abs($x)) / 2);
+            $y = abs(($y + abs($y)) / 2);
+
+            $bg->insert($image, 'top-left', $insertX, $insertY);
+            $image = $bg;
+            unset($bg);
+        }
+
+        $this->image = $image->crop($cropperData->width, $cropperData->height, $x, $y);
+        unset($image);
     }
 
     /**
