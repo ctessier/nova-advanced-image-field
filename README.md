@@ -7,26 +7,23 @@
 
 This package provides an advanced image field for Nova resources allowing you to upload, crop and resize any image.
 
-It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) in the frontend and [Intervention Image](http://image.intervention.io) in the backend.
+It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) on the client and [Intervention Image](http://image.intervention.io) on the server.
 
 ![screenshot of the advanced image field](https://github.com/ctessier/nova-advanced-image-field/blob/1.x/screenshot.png?raw=true)
 
 ## Requirements
 
-To work correctly, this package requires the following components:
+In order to work, this package requires the following components:
 - Laravel & Nova (2 or 3)
 - Fileinfo Extension
 
 And **one of** the following libraries:
-- GD Library >=2.0 (used by default)
+- GD Library >=2.0 (default)
 - Imagick PHP extension >=6.5.7
-
-The `autoOrientate` method requires the following extension to read images Exif data:
-- Exif Extension
 
 See [Intervention requirements](http://image.intervention.io/getting_started/installation) for more details.
 
-## Installation
+## Getting started
 
 Install the package into a Laravel application with Nova using Composer:
 
@@ -37,66 +34,68 @@ composer require ctessier/nova-advanced-image-field
 If you want to use Imagick as the default image processing library, follow the [Intervention documentation for Laravel](http://image.intervention.io/getting_started/installation#laravel).
 This will provide you with a new configuration file where you can specify the driver you want.
 
-## Usage
+## Code examples
 
 `AdvancedImage` extends from `Image` so you can use any methods that `Image` implements. See the documentation [here](https://nova.laravel.com/docs/3.0/resources/file-fields.html).
 
 ```php
-<?php
+// Show a cropbox with a fixed ratio
+AdvancedImage::make('Photo')->croppable(16/9),
 
-namespace App\Nova;
+// Resize the image to a max width
+AdvancedImage::make('Photo')->resize(1920),
 
-// ...
-use Illuminate\Http\Request;
-use Ctessier\NovaAdvancedImageField\AdvancedImage;
-
-class Post extends Resource
-{
-    // ...
-
-    public function fields(Request $request)
-    {
-        return [
-            // ...
-
-            // Simple image upload
-            AdvancedImage::make('Photo'),
-
-            // Show a cropbox with a free ratio
-            AdvancedImage::make('Photo')->croppable(),
-
-            // Show a cropbox with a fixed ratio
-            AdvancedImage::make('Photo')->croppable(16/9),
-
-            // Resize the image to a max width
-            AdvancedImage::make('Photo')->resize(1920),
-
-            // Resize the image to a max height
-            AdvancedImage::make('Photo')->resize(null, 1080),
-
-            // Show a cropbox and resize the image
-            AdvancedImage::make('Photo')->croppable()->resize(400, 300),
-
-            // Override the image processing driver for this field only
-            AdvancedImage::make('Photo')->driver('imagick')->croppable(),
-
-            // Store to AWS S3
-            AdvancedImage::make('Photo')->disk('s3'),
-
-            // Specify a custom subdirectory
-            AdvancedImage::make('Photo')->croppable()->disk('s3')->path('image'),
-
-            // Store custom attributes
-            AdvancedImage::make('Photo')->croppable()->store(function (Request $request, $model) {
-                return [
-                    'photo' => $request->photo->store('/', 's3'),
-                    'photo_mime' => $request->photo->getMimeType(),
-                    'photo_name' => $request->photo->getClientOriginalName(),
-                ];
-            }),
-        ];
-    }
-}
+// Override the image processing driver for this field only
+AdvancedImage::make('Photo')->driver('imagick'),
 ```
 
-The `resize` option uses [Intervention Image `resize()`](http://image.intervention.io/api/resize) with the upsize and aspect ratio constraints.
+To serve the image as an avatar / cover art search results, use the `AdvancedAvatar` class:
+
+```php
+AdvancedAvatar::make('Avatar')->croppable(),
+```
+
+## API
+
+### `driver(string $driver)`
+
+Override the default driver to be used by Intervention for the image manipulation.
+
+```php
+AdvancedImage::make('Photo')->driver('imagick'),
+```
+
+### `croppable([float $ratio])`
+
+Specify if the underlying image should be croppable.
+
+If a numeric value is given as a first parameter, it will be used to define a fixed aspect ratio for the crop box.
+
+```php
+AdvancedImage::make('Photo')->croppable(),
+AdvancedImage::make('Photo')->croppable(16/9),
+```
+
+### `resize(int $width = null, [int $height = null]])`
+
+Specify the size (width and height) the image should be resized to.
+
+```php
+AdvancedImage::make('Photo')->resize(1920),
+AdvancedImage::make('Photo')->resize(600, 400),
+AdvancedImage::make('Photo')->resize(null, 300),
+```
+
+*Note: this method uses [Intervention Image `resize()`](http://image.intervention.io/api/resize) with the upsize and aspect ratio constraints.*
+
+### `autoOrientate()`
+
+Specify if the underlying image should be orientated.
+
+Rotate the image to the orientation specified in Exif data, if any.
+
+```php
+AdvancedImage::make('Photo')->autoOrientate(),
+```
+
+*Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](http://image.intervention.io/api/orientate) for more details.*
