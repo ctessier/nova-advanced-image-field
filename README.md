@@ -21,6 +21,9 @@ And **one of** the following libraries:
 - GD Library >=2.0 (used by default)
 - Imagick PHP extension >=6.5.7
 
+The `autoOrientate` method requires the following extension to read images Exif data:
+- Exif Extension
+
 See [Intervention requirements](http://image.intervention.io/getting_started/installation) for more details.
 
 ## Installation
