@@ -14,6 +14,7 @@
 - Improve documentation
 - Remove unused CSS files
 - Added an `alt` attribute on the index vue's image
+- Bump [Cropper.js](https://github.com/fengyuanchen/cropperjs) dependency to v1.5.11
 
 ## [v1.2.1](https://github.com/ctessier/nova-advanced-image-field/compare/v1.2.0...v1.2.1)
 
