@@ -67,7 +67,9 @@ class AdvancedImage extends Image
 
         parent::fillAttribute($request, $requestAttribute, $model, $attribute);
 
-        Storage::disk($this->disk)->delete($previousFileName);
+        if ($previousFileName !== null) {
+            Storage::disk($this->disk)->delete($previousFileName);
+        }
     }
 
     /**
