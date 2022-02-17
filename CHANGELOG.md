@@ -1,5 +1,13 @@
 # Release Notes
 
+## [v1.3.1](https://github.com/ctessier/nova-advanced-image-field/compare/v1.3.0...v1.3.1)
+
+> Released 2022/02/17
+
+### Fixed
+
+- Fix issue when calling `Storage::delete` with `null` on Laravel 9 ([#74](https://github.com/ctessier/nova-advanced-image-field/pull/74)). Thanks [Woeler](https://github.com/Woeler)!
+
 ## [v1.3.0](https://github.com/ctessier/nova-advanced-image-field/compare/v1.2.1...v1.3.0)
 
 > Released 2021/05/16
