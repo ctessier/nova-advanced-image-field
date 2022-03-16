@@ -21,7 +21,7 @@ And **one of** the following libraries:
 - GD Library >=2.0 (default)
 - Imagick PHP extension >=6.5.7
 
-See [Intervention requirements](http://image.intervention.io/getting_started/installation) for more details.
+See [Intervention requirements](https://image.intervention.io/v2/introduction/installation) for more details.
 
 ## Getting started
 
@@ -31,7 +31,7 @@ Install the package into a Laravel application with Nova using Composer:
 composer require ctessier/nova-advanced-image-field
 ```
 
-If you want to use Imagick as the default image processing library, follow the [Intervention documentation for Laravel](http://image.intervention.io/getting_started/installation#laravel).
+If you want to use Imagick as the default image processing library, follow the [Intervention documentation for Laravel](https://image.intervention.io/v2/introduction/installation#laravel).
 This will provide you with a new configuration file where you can specify the driver you want.
 
 ## Code examples
@@ -76,7 +76,7 @@ AdvancedImage::make('Photo')->croppable(),
 AdvancedImage::make('Photo')->croppable(16/9),
 ```
 
-### `resize(int $width = null, [int $height = null]])`
+### `resize(int $width = null[, int $height = null])`
 
 Specify the size (width and height) the image should be resized to.
 
@@ -86,7 +86,7 @@ AdvancedImage::make('Photo')->resize(600, 400),
 AdvancedImage::make('Photo')->resize(null, 300),
 ```
 
-*Note: this method uses [Intervention Image `resize()`](http://image.intervention.io/api/resize) with the upsize and aspect ratio constraints.*
+*Note: this method uses [Intervention Image `resize()`](https://image.intervention.io/v2/api/resize) with the upsize and aspect ratio constraints.*
 
 ### `autoOrientate()`
 
@@ -98,4 +98,4 @@ Rotate the image to the orientation specified in Exif data, if any.
 AdvancedImage::make('Photo')->autoOrientate(),
 ```
 
-*Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](http://image.intervention.io/api/orientate) for more details.*
+*Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](https://image.intervention.io/v2/api/orientate) for more details.*
