@@ -10,6 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@vue/babel-plugin-jsx": "^1.1.1",
         "@vue/compiler-sfc": "^3.2.22",
         "form-backend-validation": "^2.4.0",
         "laravel-mix": "^6.0.41",
