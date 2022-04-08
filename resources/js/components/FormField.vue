@@ -5,7 +5,7 @@
         :full-width-content="true"
         :show-help-text="!isReadonly && showHelpText"
     >
-        <template slot="field">
+        <template #field>
             <image-viewer
                 @image-deleted="imageDeleted"
                 v-show="!imgSrc"
@@ -52,7 +52,7 @@
                     :accept="field.acceptedTypes"
                     @change="fileChange"
                 />
-                <label :for="labelFor" class="form-file-btn btn btn-default btn-primary">
+                <label :for="labelFor" class="shadow relative bg-primary-500 hover:bg-primary-400 active:bg-primary-600 text-white dark:text-gray-900 cursor-pointer rounded text-sm font-bold focus:outline-none focus:ring inline-flex items-center justify-center h-9 px-3 shadow relative bg-primary-500 hover:bg-primary-400 active:bg-primary-600 text-white dark:text-gray-900">
                     {{imgSrc ? __('Change File') : __('Choose File')}}
                 </label>
             </span>

@@ -15,7 +15,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.1.0",
+        "php": "^7.3|^8.0",
         "intervention/image": "^2.5"
     },
     "autoload": {
@@ -35,6 +35,15 @@
     },
     "suggest": {
         "ext-exif": "Required to orientate images automatically."
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
+    "require-dev": {
+        "laravel/nova": "^4.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

@@ -1,11 +1,17 @@
-let mix = require('laravel-mix')
+const mix = require('laravel-mix')
+const path = require('path')
 
-mix.setPublicPath('dist')
-   .js('resources/js/field.js', 'js')
-   .webpackConfig({
-      resolve: {
-          alias: {
-              '@': path.resolve(__dirname, 'resources/js/'),
-          },
+require('./mix')
+
+mix
+  .setPublicPath("dist")
+  .js("resources/js/field.js", "js")
+  .vue({ version: 3 })
+  .webpackConfig({
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'resources/js/'),
       },
+    },
   })
+  .nova("ctessier/nova-advanced-image-field");
