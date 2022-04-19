@@ -36,6 +36,12 @@
     "suggest": {
         "ext-exif": "Required to orientate images automatically."
     },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/ctessier"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
