@@ -1,5 +1,5 @@
 <template>
-    <default-field
+    <DefaultField
         :field="field"
         :errors="errors"
         :full-width-content="true"
@@ -31,14 +31,14 @@
                 v-if="imgSrc"
                 class="mt-3 mb-6 flex items-center text-sm"
             >
-                <Button
+                <DefaultButton
                     type="restore"
                     @click="cancel"
                 >
                     <span class="class ml-2 mt-1">
                         {{__('Cancel')}}
                     </span>
-                </Button>
+                </DefaultButton>
             </p>
 
             <span class="form-file mr-4">
@@ -64,7 +64,7 @@
                 {{ firstError }}
             </p>
         </template>
-    </default-field>
+    </DefaultField>
 </template>
 
 <script>
@@ -72,15 +72,14 @@ import 'cropperjs/dist/cropper.css'
 import VueCropper from 'vue-cropperjs'
 import { FormField, HandlesValidationErrors, Errors } from 'laravel-nova'
 
-import Button from '@/components/Button/Button'
-import ImageViewer from '@/components/Image/ImageViewer'
+import ImageViewer from './Image/ImageViewer'
 
 export default {
     props: ['field', 'resourceId', 'resourceName', 'relatedResourceId', 'relatedResourceName', 'viaRelationship'],
 
     mixins: [HandlesValidationErrors, FormField],
 
-    components: { VueCropper, Button, ImageViewer },
+    components: { VueCropper, ImageViewer },
 
     data: () => ({
         imgSrc: '',

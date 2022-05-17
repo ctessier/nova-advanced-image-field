@@ -1,4 +1,4 @@
-const mix = require("laravel-mix");
+const novaMix = require("laravel-mix");
 const webpack = require("webpack");
 const path = require("path");
 
@@ -34,4 +34,4 @@ class NovaExtension {
   }
 }
 
-mix.extend("nova", new NovaExtension());
+novaMix.extend("nova", new NovaExtension());

@@ -20,6 +20,6 @@
         "vue-loader": "^16.8.3"
     },
     "dependencies": {
-        "vue-cropperjs": "^4.2.0"
+        "vue-cropperjs": "^5.0.0"
     }
 }

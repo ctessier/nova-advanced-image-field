@@ -8,7 +8,7 @@
             <card class="flex item-center relative border border-lg border-50 overflow-hidden p-4">
                 {{ field.value }}
 
-                <Button
+                <DangerButton
                     type="delete"
                     class="ml-auto"
                     v-if="shouldShowRemoveButton"
@@ -21,7 +21,7 @@
             v-if="field.previewUrl"
             class="mt-3 flex items-center text-sm"
         >
-            <Button
+            <DangerButton
                 type="delete"
                 v-if="shouldShowRemoveButton"
                 @click="confirmRemoval"
@@ -29,7 +29,7 @@
                 <span class="class ml-2 mt-1">
                     {{__('Delete')}}
                 </span>
-            </Button>
+            </DangerButton>
         </p>
 
         <portal to="modals">
@@ -47,11 +47,10 @@
 <script>
 import { Errors } from 'laravel-nova'
 
-import Button from '@/components/Button/Button'
-import ImageLoader from '@/components/Image/ImageLoader'
+import ImageLoader from './ImageLoader'
 
 export default {
-    components: { Button, ImageLoader },
+    components: { ImageLoader },
 
     props: ['field', 'resourceId', 'resourceName', 'relatedResourceId', 'relatedResourceName', 'viaRelationship'],
 
