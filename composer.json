@@ -45,6 +45,12 @@
     "require-dev": {
         "laravel/nova": "^4.0"
     },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/ctessier"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

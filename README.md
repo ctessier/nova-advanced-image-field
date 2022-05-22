@@ -1,13 +1,20 @@
-# Nova Advanced Image Field
+<h1 align="center">Nova Advanced Image Field</h1>
 
-[![StyleCI](https://github.styleci.io/repos/156091175/shield?branch=1.x)](https://github.styleci.io/repos/156091175)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
-[![Total Downloads](https://img.shields.io/packagist/dm/ctessier/nova-advanced-image-field.svg?style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
-[![License](https://img.shields.io/github/license/ctessier/nova-advanced-image-field?color=%23B2878B&style=flat-square)](https://packagist.org/packages/ctessier/nova-advanced-image-field)
+<p align="center">
+  <a href="https://github.styleci.io/repos/156091175"><img src="https://github.styleci.io/repos/156091175/shield?branch=1.x" alt="StyleCI" /></a>
+  <a href="https://packagist.org/packages/ctessier/nova-advanced-image-field"><img src="https://img.shields.io/packagist/v/ctessier/nova-advanced-image-field.svg?style=flat-square" alt="Latest Version on Packagist" /></a>
+  <a href="https://packagist.org/packages/ctessier/nova-advanced-image-field"><img src="https://img.shields.io/packagist/dm/ctessier/nova-advanced-image-field.svg?style=flat-square" alt="Total Downloads" /></a>
+  <a href="https://packagist.org/packages/ctessier/nova-advanced-image-field"><img src="https://img.shields.io/github/license/ctessier/nova-advanced-image-field?color=%23B2878B&style=flat-square" alt="License" /></a>
+</p>
 
-This package provides an advanced image field for Nova resources allowing you to upload, crop and resize any image.
+<p align="center"><i>An advanced image field for Nova allowing you to upload, crop and resize images</i></p>
 
-It uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) on the client and [Intervention Image](http://image.intervention.io) on the server.
+<p align="center">
+  Need support for Laravel Nova 4?<br />
+  <a href="https://github.com/sponsors/ctessier"><img src="https://img.shields.io/badge/Support%20this%20project-Sponsor%20me%20on%20GitHub-%23fe8e86" /></a>
+</p>
+
+This package uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) on the client and [Intervention Image](http://image.intervention.io) on the server.
 
 ![screenshot of the advanced image field](https://github.com/ctessier/nova-advanced-image-field/blob/1.x/screenshot.png?raw=true)
 
