@@ -32,10 +32,9 @@
             </Button>
         </p>
 
-        <portal to="modals">
+        <portal v-if="removeModalOpen" to="modals">
             <transition name="fade">
                 <confirm-upload-removal-modal
-                    v-if="removeModalOpen"
                     @confirm="removeFile"
                     @close="closeRemoveModal"
                 />
