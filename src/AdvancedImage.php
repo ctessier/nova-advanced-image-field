@@ -25,6 +25,13 @@ class AdvancedImage extends Image
     public $rounded = true;
 
     /**
+     * Indicates whether the old file should be preserved on update.
+     *
+     * @var bool
+     */
+    protected $preserveOldOnUpdate = false;
+
+    /**
      * Create a new field.
      *
      * @param string        $name
@@ -67,7 +74,7 @@ class AdvancedImage extends Image
 
         parent::fillAttribute($request, $requestAttribute, $model, $attribute);
 
-        if ($previousFileName !== null) {
+        if (!$this->preserveOldOnUpdate && $previousFileName !== null) {
             Storage::disk($this->disk)->delete($previousFileName);
         }
     }
@@ -83,5 +90,19 @@ class AdvancedImage extends Image
             'croppable'   => $this->croppable,
             'aspectRatio' => $this->cropAspectRatio,
         ]);
+    }
+
+    /**
+     * Determine whether the old image file should be preserved when this field is updated with a new image.
+     *
+     * @param bool $preserveOldOnUpdate
+     *
+     * @return $this
+     */
+    public function preserveOldFileOnUpdate(bool $preserveOldOnUpdate)
+    {
+        $this->preserveOldOnUpdate = $preserveOldOnUpdate;
+
+        return $this;
     }
 }
