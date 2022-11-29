@@ -1,6 +1,6 @@
 {
     "name": "ctessier/nova-advanced-image-field",
-    "description": "An advanced image field for Nova with crop and resize.",
+    "description": "An advanced image field for Nova with cropping and resizing.",
     "keywords": [
         "laravel",
         "nova",
@@ -16,6 +16,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "laravel/nova": "^4.0",
         "intervention/image": "^2.5"
     },
     "autoload": {
@@ -30,20 +31,14 @@
             ]
         }
     },
-    "config": {
-        "sort-packages": true
-    },
-    "suggest": {
-        "ext-exif": "Required to orientate images automatically."
-    },
     "repositories": [
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
         }
     ],
-    "require-dev": {
-        "laravel/nova": "^4.0"
+    "suggest": {
+        "ext-exif": "Required to orientate images automatically."
     },
     "funding": [
         {

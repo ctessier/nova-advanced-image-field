@@ -10,14 +10,15 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@inertiajs/inertia": "^0.11.1",
         "@vue/babel-plugin-jsx": "^1.1.1",
         "@vue/compiler-sfc": "^3.2.22",
-        "form-backend-validation": "^2.4.0",
+        "form-backend-validation": "^2.3.3",
         "laravel-mix": "^6.0.41",
-        "laravel-nova": "^1.12.3",
         "lodash": "^4.17.21",
         "postcss": "^8.3.11",
-        "vue-loader": "^16.8.3"
+        "vue-loader": "^16.8.3",
+        "vuex": "^4.1.0"
     },
     "dependencies": {
         "vue-cropperjs": "^5.0.0"
