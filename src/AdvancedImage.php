@@ -18,13 +18,6 @@ class AdvancedImage extends Image
     public $component = 'advanced-image-field';
 
     /**
-     * Indicates whether the image should be fully rounded or not.
-     *
-     * @var bool
-     */
-    public $rounded = true;
-
-    /**
      * Create a new field.
      *
      * @param string        $name
