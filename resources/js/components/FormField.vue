@@ -30,7 +30,7 @@
           @close="closeRemoveModal"
         />
 
-        <div v-if="file && field.croppable" class="w-1/2">
+        <div v-if="file && field.croppable" class="w-full">
           <advanced-cropper
             v-if="file"
             :file="file"

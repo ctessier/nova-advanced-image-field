@@ -10,7 +10,7 @@
       />
 
       <div
-        class="bg-gray-50 relative aspect-square flex items-center justify-center border-2 border-gray-200 dark:border-gray-700 overflow-hidden rounded-lg"
+        class="bg-gray-50 relative flex items-center justify-center border-2 border-gray-200 dark:border-gray-700 overflow-hidden rounded-lg"
       >
         <!-- Upload Overlay -->
         <div
@@ -25,7 +25,7 @@
         <cropper
           v-if="isImage"
           ref="cropper"
-          class="cropper aspect-square object-scale-down"
+          class="cropper object-scale-down"
           :src="previewUrl"
           :stencil-props="{ aspectRatio }"
         ></cropper>
