@@ -16,8 +16,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "laravel/nova": "^4.0",
-        "intervention/image": "^2.5"
+        "intervention/image": "^2.7",
+        "laravel/nova": "^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -38,7 +38,9 @@
         }
     ],
     "suggest": {
-        "ext-exif": "Required to orientate images automatically."
+        "ext-imagick": "Install the Imagick extension to process image using ImageMagick.",
+        "ext-gd": "Install the GD extension to process images using GD.",
+        "ext-exif": "Install the exif extension to orientate images automatically."
     },
     "funding": [
         {
