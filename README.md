@@ -11,7 +11,7 @@
 
 This package is built on top of the native Nova image field. It uses [Advanced Cropper](https://advanced-cropper.github.io/vue-advanced-cropper/) to show a cropper on the frontend, and [Intervention Image](http://image.intervention.io) to process the image on the backend.
 
-![screenshot of the advanced image field](https://github.com/ctessier/nova-advanced-image-field/blob/1.x/screenshot.png?raw=true)
+![screenshot of the advanced image field](screenshot.png)
 
 ## Requirements
 
