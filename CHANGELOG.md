@@ -1,5 +1,22 @@
 # Release Notes
 
+## [v1.3.3](https://github.com/ctessier/nova-advanced-image-field/compare/v1.3.2...v1.3.3)
+
+> Released 2022/05/28
+
+### Fixed
+
+- Fix delete modal opening only for the last item when using multiple image fields ([#81](https://github.com/ctessier/nova-advanced-image-field/pull/81)). Thanks [nilsvannoort](https://github.com/nilsvannoort)!
+
+## [v1.3.2](https://github.com/ctessier/nova-advanced-image-field/compare/v1.3.1...v1.3.2)
+
+> Released 2022/04/19
+
+### Changed
+
+- Fix documentation
+- Add Sponsor and funding links
+
 ## [v1.3.1](https://github.com/ctessier/nova-advanced-image-field/compare/v1.3.0...v1.3.1)
 
 > Released 2022/02/17
