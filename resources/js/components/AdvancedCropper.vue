@@ -44,16 +44,12 @@ import { Cropper } from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
 
 const emit = defineEmits(['removed'])
-
 const props = defineProps({
   file: { type: Object },
   aspectRatio: { type: Number },
 })
-
 const components = { Cropper }
-
 const { previewUrl, isImage } = useFilePreviews(toRef(props, 'file'))
-
 const handleRemoveClick = () => emit('removed')
 </script>
 
