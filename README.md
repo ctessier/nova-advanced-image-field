@@ -9,24 +9,36 @@
 
 <p align="center"><i>An advanced image field for Nova allowing you to upload, crop and resize images</i></p>
 
-<p align="center">
-  Need support for Laravel Nova 4?<br />
-  <a href="https://github.com/sponsors/ctessier"><img src="https://img.shields.io/badge/Support%20this%20project-Sponsor%20me%20on%20GitHub-%23fe8e86" /></a>
-</p>
+This package is built on top of the native Nova image field. It uses [Advanced Cropper](https://advanced-cropper.github.io/vue-advanced-cropper/) to show a cropper on the frontend, and [Intervention Image](http://image.intervention.io) to process the image on the backend.
 
-This package uses [Cropper.js](https://fengyuanchen.github.io/cropperjs) with [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) on the client and [Intervention Image](http://image.intervention.io) on the server.
-
-![screenshot of the advanced image field](https://github.com/ctessier/nova-advanced-image-field/blob/1.x/screenshot.png?raw=true)
+![screenshot of the advanced image field](screenshot.png)
 
 ## Requirements
 
-In order to work, this package requires the following components:
-- Laravel & Nova (2 or 3)
-- Fileinfo Extension
-
-And **one of** the following libraries:
-- GD Library >=2.0 (default)
-- Imagick PHP extension >=6.5.7
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>PHP</th>
+      <th>Nova</th>
+      <th>GD (default)</th>
+      <th>Imagick</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.x</td>
+      <td>>=7.1</td>
+      <td>2 or 3</td>
+      <td rowspan=2>>=2.0</td>
+      <td rowspan=2>>=6.5.7</td>
+    </tr>
+    <tr>
+      <td>2.x</td>
+      <td>>=7.3</td>
+      <td>4</td>
+  </tbody>
+</table>
 
 See [Intervention requirements](https://image.intervention.io/v2/introduction/installation) for more details.
 
@@ -56,10 +68,11 @@ AdvancedImage::make('Photo')->resize(1920),
 AdvancedImage::make('Photo')->driver('imagick'),
 ```
 
-To serve the image as an avatar / cover art search results, use the `AdvancedAvatar` class:
+To display the image as a rounded avatar, use the `AdvancedAvatar` class or the `rounded` method:
 
 ```php
 AdvancedAvatar::make('Avatar')->croppable(),
+AdvancedImage::make('Avatar')->croppable()->rounded(),
 ```
 
 ## API
@@ -97,9 +110,9 @@ AdvancedImage::make('Photo')->resize(null, 300),
 
 ### `autoOrientate()`
 
-Specify if the underlying image should be orientated.
+Specify if the underlying image should be orientated. It will rotate the image to the orientation specified in Exif data, if any.
 
-Rotate the image to the orientation specified in Exif data, if any.
+This can be mandatory in some cases for the cropper to work properly.
 
 ```php
 AdvancedImage::make('Photo')->autoOrientate(),

@@ -1,194 +1,275 @@
 <template>
-    <DefaultField
-        :field="field"
-        :errors="errors"
-        :full-width-content="true"
-        :show-help-text="!isReadonly && showHelpText"
-    >
-        <template #field>
-            <image-viewer
-                @image-deleted="imageDeleted"
-                v-show="!imgSrc"
-                :field="field"
-                :resourceId="resourceId"
-                :resourceName="resourceName"
-                :relatedResourceId="relatedResourceId"
-                :relatedResourceName="relatedResourceName"
-                :viaRelationship="viaRelationship"
-            ></image-viewer>
+  <DefaultField
+    :field="currentField"
+    :label-for="labelFor"
+    :errors="errors"
+    :show-help-text="!isReadonly && showHelpText"
+    :full-width-content="fullWidthContent"
+  >
+    <template #field>
+      <!-- Existing Image -->
+      <div class="space-y-4">
+        <div
+          v-if="hasValue && previewFile && files.length == 0"
+          class="grid grid-cols-4 gap-x-6 gap-y-2"
+        >
+          <FilePreviewBlock
+            v-if="previewFile"
+            :file="previewFile"
+            :removable="shouldShowRemoveButton"
+            @removed="confirmRemoval"
+            :rounded="field.rounded"
+            :dusk="field.attribute + '-delete-link'"
+          />
+        </div>
 
-            <vue-cropper
-                v-if="field.croppable"
-                v-show="imgSrc"
-                class="mb-4"
-                ref='cropper'
-                :view-mode="1"
-                :aspect-ratio="field.aspectRatio || NaN"
-                :src="imgSrc"
-            ></vue-cropper>
+        <!-- Upload Removal Modal -->
+        <ConfirmUploadRemovalModal
+          :show="removeModalOpen"
+          @confirm="removeUploadedFile"
+          @close="closeRemoveModal"
+        />
 
-            <p
-                v-if="imgSrc"
-                class="mt-3 mb-6 flex items-center text-sm"
-            >
-                <DefaultButton
-                    type="restore"
-                    @click="cancel"
-                >
-                    <span class="class ml-2 mt-1">
-                        {{__('Cancel')}}
-                    </span>
-                </DefaultButton>
-            </p>
+        <div v-if="file && field.croppable" class="w-full">
+          <advanced-cropper
+            v-if="file"
+            :file="file"
+            :aspectRatio="field.aspectRatio"
+            @removed="removeFile"
+            @changed="handleCropChange"
+            ref="cropper"
+          />
+        </div>
 
-            <span class="form-file mr-4">
-                <input
-                    ref="fileField"
-                    :dusk="field.attribute"
-                    class="form-file-input"
-                    type="file"
-                    :id="idAttr"
-                    name="name"
-                    :accept="field.acceptedTypes"
-                    @change="fileChange"
-                />
-                <label :for="labelFor" class="shadow relative bg-primary-500 hover:bg-primary-400 active:bg-primary-600 text-white dark:text-gray-900 cursor-pointer rounded text-sm font-bold focus:outline-none focus:ring inline-flex items-center justify-center h-9 px-3 shadow relative bg-primary-500 hover:bg-primary-400 active:bg-primary-600 text-white dark:text-gray-900">
-                    {{imgSrc ? __('Change File') : __('Choose File')}}
-                </label>
-            </span>
-            <span class="text-gray-50">
-                {{ currentLabel }}
-            </span>
-
-            <p v-if="hasError" class="text-xs mt-2 text-danger">
-                {{ firstError }}
-            </p>
-        </template>
-    </DefaultField>
+        <!-- DropZone -->
+        <DropZone
+          v-if="shouldShowField"
+          @change="handleFileChange"
+          :files="field.croppable ? [] : files"
+          @file-removed="removeFile"
+          :rounded="field.rounded"
+          :accepted-types="field.acceptedTypes"
+          :disabled="file?.processing"
+          :dusk="field.attribute + '-delete-link'"
+          :input-dusk="field.attribute"
+        />
+      </div>
+    </template>
+  </DefaultField>
 </template>
 
 <script>
-import 'cropperjs/dist/cropper.css'
-import VueCropper from 'vue-cropperjs'
-import { FormField, HandlesValidationErrors, Errors } from 'laravel-nova'
+import { DependentFormField, Errors, HandlesValidationErrors } from 'laravel-nova'
 
-import ImageViewer from './Image/ImageViewer'
+import AdvancedCropper from './AdvancedCropper.vue'
+import 'vue-advanced-cropper/dist/theme.compact.css';
+
+function createFile(file) {
+  return {
+    name: file.name,
+    extension: file.name.split('.').pop(),
+    type: file.type,
+    originalFile: file,
+  }
+}
 
 export default {
-    props: ['field', 'resourceId', 'resourceName', 'relatedResourceId', 'relatedResourceName', 'viaRelationship'],
+  emits: ['file-deleted'],
 
-    mixins: [HandlesValidationErrors, FormField],
+  props: [
+    'resourceId',
+    'relatedResourceName',
+    'relatedResourceId',
+    'viaRelationship',
+  ],
 
-    components: { VueCropper, ImageViewer },
+  mixins: [HandlesValidationErrors, DependentFormField],
 
-    data: () => ({
-        imgSrc: '',
-        file: null,
-        fileName: '',
-        uploadErrors: new Errors(),
-    }),
+  components: { AdvancedCropper },
 
-    methods: {
-        /**
-         * Fill the attributes on form submit
-         */
-        fill(formData) {
-            if (this.file) {
-                formData.append(this.field.attribute, this.file, this.fileName)
-                if (this.field.croppable) {
-                    formData.append(this.field.attribute + '_data', JSON.stringify(this.$refs.cropper.getData(true)))
-                }
-            }
-        },
+  data: () => ({
+    previewFile: null,
+    file: null,
+    removeModalOpen: false,
+    missing: false,
+    deleted: false,
+    uploadErrors: new Errors(),
+    uploadProgress: 0,
+    startedDrag: false,
 
-        /**
-         * Cancel the new selected image
-         */
-        cancel() {
-            if (this.field.croppable) {
-                this.$refs.cropper.destroy()
-            }
-            this.imgSrc = ''
-            this.file = null
-            this.fileName = ''
-        },
+    uploadModalShown: false,
+  }),
 
-        /**
-         * Respond to the file change
-         * Set the data and init the crop box if the image is croppable
-         */
-        fileChange(e) {
-            let path = e.target.value
-            let fileName = path.match(/[^\\/]*$/)[0]
-            this.fileName = fileName
-            this.file = this.$refs.fileField.files[0]
+  async mounted() {
+    this.preparePreviewImage()
 
-            const file = e.target.files[0]
-            if (!file.type.includes('image/')) {
-                alert(this.__('Please select an image file'))
-                return
-            }
+    this.field.fill = formData => {
+      let attribute = this.field.attribute
 
-            if (this.field.croppable) {
-                if (typeof FileReader === 'function') {
-                    const reader = new FileReader()
-                    reader.onload = (event) => {
-                        this.imgSrc = event.target.result
-                        this.$refs.cropper.replace(event.target.result)
-                    }
-                    reader.readAsDataURL(file)
-                } else {
-                    alert(this.__('Sorry, FileReader API not supported'))
-                }
-            }
-        },
+      if (this.file) {
+        formData.append(attribute, this.file.originalFile, this.file.name)
+        if (this.field.croppable) {
+          const cropResult = this.$refs.cropper.$refs.cropper.getResult()
+          formData.append(`${attribute}_data`, JSON.stringify(cropResult))
+        }
+      }
+    }
+  },
 
-        /**
-         * Inform the parent component that the file has been deleted
-         * This event allows to update the `lastRetrievedAt` timestamp for further model changes
-         */
-        imageDeleted() {
-            this.$emit('file-deleted')
-        },
+  methods: {
+    preparePreviewImage() {
+      if (this.hasValue && this.imageUrl) {
+        this.fetchPreviewImage()
+      }
+
+      if (this.hasValue && !this.imageUrl) {
+        this.previewFile = createFile({
+          name: this.currentField.value,
+          type: this.currentField.value.split('.').pop(),
+        })
+      }
     },
 
-    computed: {
-        /**
-         * Determine whether the image field has errors
-         */
-        hasError() {
-            return this.uploadErrors.has(this.fieldAttribute)
-        },
+    async fetchPreviewImage() {
+      let response = await fetch(this.imageUrl)
+      let data = await response.blob()
 
-        /**
-         * The first error, if any, of the image field
-         */
-        firstError() {
-            if (this.hasError) {
-                return this.uploadErrors.first(this.fieldAttribute)
-            }
-        },
-
-        /**
-         * The current label of the image field
-         */
-        currentLabel() {
-            return this.fileName || this.__('no file selected')
-        },
-
-        /**
-         * The ID attribute to use for the image field
-         */
-        idAttr() {
-            return this.labelFor
-        },
-
-        /**
-         * The label attribute to use for the image field
-         */
-        labelFor() {
-            return `advanced-image-${this.field.attribute}`
-        },
+      this.previewFile = createFile(
+        new File([data], this.currentField.value, { type: data.type })
+      )
     },
+
+    handleFileChange(newFiles) {
+      this.file = createFile(newFiles[0])
+    },
+
+    removeFile() {
+      this.file = null
+    },
+
+    confirmRemoval() {
+      this.removeModalOpen = true
+    },
+
+    closeRemoveModal() {
+      this.removeModalOpen = false
+    },
+
+    async removeUploadedFile() {
+      this.uploadErrors = new Errors()
+
+      const {
+        resourceName,
+        resourceId,
+        relatedResourceName,
+        relatedResourceId,
+        viaRelationship,
+      } = this
+      const attribute = this.field.attribute
+
+      const uri =
+        this.viaRelationship &&
+        this.relatedResourceName &&
+        this.relatedResourceId
+          ? `/nova-api/${resourceName}/${resourceId}/${relatedResourceName}/${relatedResourceId}/field/${attribute}?viaRelationship=${viaRelationship}`
+          : `/nova-api/${resourceName}/${resourceId}/field/${attribute}`
+
+      try {
+        await Nova.request().delete(uri)
+        this.closeRemoveModal()
+        this.deleted = true
+        this.$emit('file-deleted')
+        Nova.success(this.__('The image was deleted!'))
+      } catch (error) {
+        this.closeRemoveModal()
+
+        if (error.response?.status === 422) {
+          this.uploadErrors = new Errors(error.response.data.errors)
+        }
+      }
+    },
+  },
+
+  computed: {
+    files() {
+      console.log(this.file);
+      return this.file ? [this.file] : []
+    },
+
+    /**
+     * Determine if the field has an upload error.
+     */
+    hasError() {
+      return this.uploadErrors.has(this.fieldAttribute)
+    },
+
+    /**
+     * Return the first error for the field.
+     */
+    firstError() {
+      if (this.hasError) {
+        return this.uploadErrors.first(this.fieldAttribute)
+      }
+    },
+
+    /**
+     * The ID attribute to use for the file field.
+     */
+    idAttr() {
+      return this.labelFor
+    },
+
+    /**
+     * The label attribute to use for the file field.
+     */
+    labelFor() {
+      let name = this.resourceName
+
+      if (this.relatedResourceName) {
+        name += '-' + this.relatedResourceName
+      }
+
+      return `advanced-image-${name}-${this.field.attribute}`
+    },
+
+    /**
+     * Determine whether the field has a value.
+     */
+    hasValue() {
+      return (
+        Boolean(this.field.value || this.imageUrl) &&
+        !Boolean(this.deleted) &&
+        !Boolean(this.missing)
+      )
+    },
+
+    /**
+     * Determine whether the field should show the loader component.
+     */
+    shouldShowLoader() {
+      return !Boolean(this.deleted) && Boolean(this.imageUrl)
+    },
+
+    /**
+     * Determine whether the file field input should be shown.
+     */
+    shouldShowField() {
+      return Boolean(!this.currentlyIsReadonly)
+    },
+
+    /**
+     * Determine whether the field should show the remove button.
+     */
+    shouldShowRemoveButton() {
+      return Boolean(this.currentField.deletable && !this.currentlyIsReadonly)
+    },
+
+    /**
+     * Return the preview or thumbnail URL for the field.
+     */
+    imageUrl() {
+      return this.currentField.previewUrl || this.currentField.thumbnailUrl
+    },
+  },
 }
 </script>
