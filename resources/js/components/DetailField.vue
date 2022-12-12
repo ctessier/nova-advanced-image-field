@@ -1,80 +1,84 @@
 <template>
-    <panel-item :field="field">
-        <div slot="value">
-            <template v-if="shouldShowLoader">
-                <image-loader :src="field.previewUrl" class="max-w-xs" @missing="(value) => missing = value" />
-            </template>
+  <PanelItem :index="index" :field="field">
+    <template #value>
+      <ImageLoader
+        v-if="shouldShowLoader"
+        :src="imageUrl"
+        :maxWidth="field.maxWidth || field.detailWidth"
+        :rounded="field.rounded"
+        :aspect="field.aspect"
+      />
 
-            <template v-if="field.value && !field.previewUrl">
-                {{ field.value }}
-            </template>
+      <span v-if="fieldValue && !imageUrl" class="break-words">
+        {{ fieldValue }}
+      </span>
 
-            <span v-if="!field.value && !field.previewUrl">&mdash;</span>
-            <span v-if="deleted">&mdash;</span>
+      <span v-if="!fieldValue && !imageUrl">&mdash;</span>
 
-            <p
-                v-if="shouldShowToolbar"
-                class="flex items-center text-sm mt-3"
-            >
-                <a
-                    v-if="field.downloadable"
-                    :dusk="field.attribute + '-download-link'"
-                    @keydown.enter.prevent="download"
-                    @click.prevent="download"
-                    tabindex="0"
-                    class="cursor-pointer dim btn btn-link text-primary inline-flex items-center"
-                >
-                    <icon class="mr-2" type="download" view-box="0 0 24 24" width="16" height="16" />
-                    <span class="class mt-1">
-                        {{ __('Download') }}
-                    </span>
-                </a>
-            </p>
-        </div>
-    </panel-item>
+      <p v-if="shouldShowToolbar" class="flex items-center text-sm mt-3">
+        <a
+          v-if="field.downloadable"
+          :dusk="field.attribute + '-download-link'"
+          @keydown.enter.prevent="download"
+          @click.prevent="download"
+          tabindex="0"
+          class="cursor-pointer text-gray-500 inline-flex items-center"
+        >
+          <Icon
+            class="mr-2"
+            type="download"
+            view-box="0 0 24 24"
+            width="16"
+            height="16"
+          />
+          <span class="class mt-1">{{ __('Download') }}</span>
+        </a>
+      </p>
+    </template>
+  </PanelItem>
 </template>
 
 <script>
-import ImageLoader from '@/components/Image/ImageLoader'
+import { FieldValue } from 'laravel-nova'
 
 export default {
-    props: ['field', 'resourceId', 'resourceName'],
+  mixins: [FieldValue],
 
-    components: { ImageLoader },
+  props: ['index', 'resource', 'resourceName', 'resourceId', 'field'],
 
-    data: () => ({ missing: false, deleted: false }),
+  methods: {
+    /**
+     * Download the linked file
+     */
+    download() {
+      const { resourceName, resourceId } = this
+      const attribute = this.field.attribute
 
-    methods: {
-        /**
-         * Download the linked image
-         */
-        download() {
-            const { resourceName, resourceId } = this
-            const attribute = this.field.attribute
+      let link = document.createElement('a')
+      link.href = `/nova-api/${resourceName}/${resourceId}/download/${attribute}`
+      link.download = 'download'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    },
+  },
 
-            let link = document.createElement('a')
-            link.href = `/nova-api/${resourceName}/${resourceId}/download/${attribute}`
-            link.download = 'download'
-            link.click()
-        },
+  computed: {
+    hasValue() {
+      return Boolean(this.field.value || this.imageUrl)
     },
 
-    computed: {
-        hasValue() {
-            return (
-                Boolean(this.field.value || this.field.previewUrl) &&
-                !Boolean(this.deleted) &&
-                !Boolean(this.missing)
-            )
-        },
-
-        shouldShowLoader() {
-            return !Boolean(this.deleted) && Boolean(this.field.previewUrl)
-        },
-
-        shouldShowToolbar() {
-            return Boolean(this.field.downloadable || this.field.deletable) && this.hasValue
-        },
+    shouldShowLoader() {
+      return this.imageUrl
     },
+
+    shouldShowToolbar() {
+      return Boolean(this.field.downloadable && this.hasValue)
+    },
+
+    imageUrl() {
+      return this.field.previewUrl || this.field.thumbnailUrl
+    },
+  },
 }
 </script>

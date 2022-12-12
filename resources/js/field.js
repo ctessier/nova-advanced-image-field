@@ -1,6 +1,6 @@
-import IndexField from '@/components/IndexField'
-import DetailField from '@/components/DetailField'
-import FormField from '@/components/FormField'
+import IndexField from './components/IndexField'
+import DetailField from './components/DetailField'
+import FormField from './components/FormField'
 
 Nova.booting((Vue) => {
     Vue.component('index-advanced-image-field', IndexField)

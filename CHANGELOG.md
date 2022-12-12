@@ -1,5 +1,20 @@
 # Release Notes
 
+## [v2.0.0](https://github.com/ctessier/nova-advanced-image-field/compare/v1.3.3...v2.0.0)
+
+> Released 2022/12/12
+
+### 🎉 Support for Nova 4 is here!
+
+Advanced Image Field is now compatible with Nova 4! This version brings **no breaking change**, so you can keep your existing AdvancedImage fields unchanged while migrating to Nova 4.
+
+👏 A special thanks to [Grafikart](https://github.com/Grafikart), as well as James Hilton and my other sponsors for their contribution!
+
+### Changed
+
+- Nova 4 compatibility
+- The cropper now uses [Advanced Cropper](https://advanced-cropper.github.io/vue-advanced-cropper/) instead of Cropper.js
+
 ## [v1.3.3](https://github.com/ctessier/nova-advanced-image-field/compare/v1.3.2...v1.3.3)
 
 > Released 2022/05/28

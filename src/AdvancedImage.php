@@ -18,13 +18,6 @@ class AdvancedImage extends Image
     public $component = 'advanced-image-field';
 
     /**
-     * Indicates whether the image should be fully rounded or not.
-     *
-     * @var bool
-     */
-    public $rounded = true;
-
-    /**
      * Create a new field.
      *
      * @param string        $name
@@ -77,7 +70,7 @@ class AdvancedImage extends Image
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
             'croppable'   => $this->croppable,
