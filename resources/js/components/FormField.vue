@@ -192,7 +192,6 @@ export default {
 
   computed: {
     files() {
-      console.log(this.file);
       return this.file ? [this.file] : []
     },
 
