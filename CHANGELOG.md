@@ -1,5 +1,13 @@
 # Release Notes
 
+## [v2.0.1](https://github.com/ctessier/nova-advanced-image-field/compare/v2.0.0...v2.0.1)
+
+> Released 2022/12/13
+
+### Changed
+
+- Remove `console.log` ([#85](https://github.com/ctessier/nova-advanced-image-field/pull/85)). Thanks [puzzledmonkey](https://github.com/puzzledmonkey)!
+
 ## [v2.0.0](https://github.com/ctessier/nova-advanced-image-field/compare/v1.3.3...v2.0.0)
 
 > Released 2022/12/12
