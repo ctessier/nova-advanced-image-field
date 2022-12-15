@@ -18,6 +18,13 @@ class AdvancedImage extends Image
     public $component = 'advanced-image-field';
 
     /**
+     * Preserve the old image when updating.
+     *
+     * @var bool
+     */
+    public $preserveImageWhenUpdating = false;
+
+    /**
      * Create a new field.
      *
      * @param string        $name
@@ -60,7 +67,7 @@ class AdvancedImage extends Image
 
         parent::fillAttribute($request, $requestAttribute, $model, $attribute);
 
-        if ($previousFileName !== null) {
+        if ($previousFileName !== null && !$this->preserveImageWhenUpdating) {
             Storage::disk($this->disk)->delete($previousFileName);
         }
     }
@@ -76,5 +83,19 @@ class AdvancedImage extends Image
             'croppable'   => $this->croppable,
             'aspectRatio' => $this->cropAspectRatio,
         ]);
+    }
+
+    /**
+     * Configure if the old image should be preserved when updating.
+     *
+     * @param bool $preserve
+     *
+     * @return self
+     */
+    public function preserveImageWhenUpdating(bool $preserve = true): self
+    {
+        $this->preserveImageWhenUpdating = $preserve;
+
+        return $this;
     }
 }
