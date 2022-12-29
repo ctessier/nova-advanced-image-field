@@ -177,7 +177,7 @@ trait TransformableImage
      */
     private function cropImage(object $cropperData)
     {
-        $this->image->crop($cropperData->width, $cropperData->height, $cropperData->left, $cropperData->top);
+        $this->image->crop((int) $cropperData->width, (int) $cropperData->height, (int) $cropperData->left, (int) $cropperData->top);
     }
 
     /**
