@@ -1,5 +1,25 @@
 # Release Notes
 
+## [v2.0.2](https://github.com/ctessier/nova-advanced-image-field/compare/v2.0.1...v2.0.2)
+
+> Released 2023/02/16
+
+This release fixes a blocker issue introduced with Nova v4.22.0.
+
+### Fixed
+
+- Fix issue when the crop function was called with float values ([#86](https://github.com/ctessier/nova-advanced-image-field/pull/86)). Thanks [Woeler](https://github.com/Woeler)!
+- Fix issue when the field was used without the cropper ([#89](https://github.com/ctessier/nova-advanced-image-field/pull/89)). Thanks [Woeler](https://github.com/Woeler)!
+- Fix file handler not being triggered anymore since Nova v4.22.0 ([#97](https://github.com/ctessier/nova-advanced-image-field/pull/97)). Thanks [puzzledmonkey](https://github.com/puzzledmonkey)!
+
+## [v2.0.1](https://github.com/ctessier/nova-advanced-image-field/compare/v2.0.0...v2.0.1)
+
+> Released 2022/12/13
+
+### Changed
+
+- Remove `console.log` ([#85](https://github.com/ctessier/nova-advanced-image-field/pull/85)). Thanks [puzzledmonkey](https://github.com/puzzledmonkey)!
+
 ## [v2.0.0](https://github.com/ctessier/nova-advanced-image-field/compare/v1.3.3...v2.0.0)
 
 > Released 2022/12/12

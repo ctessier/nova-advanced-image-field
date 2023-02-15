@@ -45,6 +45,7 @@
         <DropZone
           v-if="shouldShowField"
           @change="handleFileChange"
+          @file-changed="handleFileChange"
           :files="field.croppable ? [] : files"
           @file-removed="removeFile"
           :rounded="field.rounded"
@@ -192,7 +193,6 @@ export default {
 
   computed: {
     files() {
-      console.log(this.file);
       return this.file ? [this.file] : []
     },
 

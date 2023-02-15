@@ -144,7 +144,7 @@ trait TransformableImage
      *
      * @return void
      */
-    public function transformImage(UploadedFile $uploadedFile, object $cropperData)
+    public function transformImage(UploadedFile $uploadedFile, ?object $cropperData)
     {
         if (!$this->croppable && !$this->width && !$this->height) {
             return;
@@ -177,7 +177,7 @@ trait TransformableImage
      */
     private function cropImage(object $cropperData)
     {
-        $this->image->crop($cropperData->width, $cropperData->height, $cropperData->left, $cropperData->top);
+        $this->image->crop((int) $cropperData->width, (int) $cropperData->height, (int) $cropperData->left, (int) $cropperData->top);
     }
 
     /**
