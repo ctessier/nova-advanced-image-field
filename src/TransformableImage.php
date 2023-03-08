@@ -53,6 +53,13 @@ trait TransformableImage
     private $autoOrientate = false;
 
     /**
+     * The quality of the resulting image.
+     *
+     * @var int
+     */
+    private $quality = 90;
+
+    /**
      * The Intervention Image instance.
      *
      * @var \Intervention\Image\Image
@@ -137,6 +144,26 @@ trait TransformableImage
     }
 
     /**
+     * Specify the resulting quality.
+     * This only applies to JPG format since PNG compression is lossless.
+     * The value must range from 0 (poor quality, small file) to 100 (best quality, big file).
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function quality(int $quality)
+    {
+        if ($quality < 0 || $quality > 100) {
+            throw new \Exception('The quality must ranges from 0 to 100.');
+        }
+
+        $this->quality = $quality;
+
+        return $this;
+    }
+
+    /**
      * Transform the uploaded file.
      *
      * @param \Illuminate\Http\UploadedFile $uploadedFile
@@ -164,7 +191,7 @@ trait TransformableImage
             $this->resizeImage();
         }
 
-        $this->image->save($uploadedFile->getPathName(), 90, $uploadedFile->getClientOriginalExtension());
+        $this->image->save($uploadedFile->getPathName(), $this->quality, $uploadedFile->getClientOriginalExtension());
         $this->image->destroy();
     }
 
