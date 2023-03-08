@@ -1,5 +1,20 @@
 # Release Notes
 
+## [v2.0.3](https://github.com/ctessier/nova-advanced-image-field/compare/v2.0.2...v2.0.3)
+
+> Released 2023/03/08
+
+This release fixes a blocker issue on Windows servers where Intervention would throw `Encoding format (tmp) is not supported.`.
+
+### New Features
+
+- Add method to specify the quality of the transformed image, from 0 to 100 ([#103](https://github.com/ctessier/nova-advanced-image-field/pull/103))
+
+### Fixed
+
+- Fix `Encoding format (tmp) is not supported.` issue on Windows server ([#102](https://github.com/ctessier/nova-advanced-image-field/pull/102)). Thanks [dimalebid](https://github.com/dimalebid) for your help!
+- Fix issue when using the field on something other than a Nova Resource ([#99](https://github.com/ctessier/nova-advanced-image-field/pull/99)). Thanks [Jaspur](https://github.com/Jaspur)!
+
 ## [v2.0.2](https://github.com/ctessier/nova-advanced-image-field/compare/v2.0.1...v2.0.2)
 
 > Released 2023/02/16
