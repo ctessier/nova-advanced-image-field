@@ -119,3 +119,15 @@ AdvancedImage::make('Photo')->autoOrientate(),
 ```
 
 *Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](https://image.intervention.io/v2/api/orientate) for more details.*
+
+### `quality(int $quality)`
+
+Specify the resulting quality of the transformed image.
+
+This only applies to JPG format as PNG compression is lossless. The value must range from 0 (poor quality, small file) to 100 (best quality, big file).
+
+```php
+AdvancedImage::make('Photo')->resize(600, 400)->quality(95),
+```
+
+*Note: the quality will be passed to the [Intervention Image `save()`](https://image.intervention.io/v2/api/save) method.*
