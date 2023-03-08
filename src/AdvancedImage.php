@@ -54,7 +54,7 @@ class AdvancedImage extends Image
             return;
         }
 
-        $previousFileName = $model->{$attribute};
+        $previousFileName = $model->{$attribute} ?? null;
 
         $this->transformImage($request->{$this->attribute}, json_decode($request->{$this->attribute.'_data'}));
 
