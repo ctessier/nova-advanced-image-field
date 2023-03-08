@@ -164,7 +164,7 @@ trait TransformableImage
             $this->resizeImage();
         }
 
-        $this->image->save();
+        $this->image->save($uploadedFile->getPathName(), 90, $uploadedFile->getClientOriginalExtension());
         $this->image->destroy();
     }
 
