@@ -64,7 +64,9 @@ trait TransformableImage
      *
      * @var bool
      */
-    private $webp = false;
+    private $outputFormat;
+
+    private $allowedExtensions = ['jpg', 'png', 'gif', 'tif', 'bmp', 'ico', 'psd', 'webp', 'data-url'];
 
     /**
      * The Intervention Image instance.
@@ -170,15 +172,14 @@ trait TransformableImage
         return $this;
     }
 
-    /**
-     * Specify if the underlying image should be encoded to the webp format.
-     *
-     * @return $this
-     */
-    public function webp()
+    public function convert($format) 
     {
-        $this->webp = true;
-
+        if (!in_array($format, $this->$allowedExtensions)) {
+            throw new \Exception("Unsupported output format: $format");
+        }
+    
+        $this->outputFormat = $format;
+    
         return $this;
     }
 
@@ -210,11 +211,11 @@ trait TransformableImage
             $this->resizeImage();
         }
 
-        if ($this->webp) {
-            $this->convertToWebp();
+        if ($this->outputFormat) {
+            $this->convertImage($this->outputFormat);
         }
 
-        $this->image->save($uploadedFile->getPathName(), $this->quality, $this->webp === true ? 'webp' : $uploadedFile->getClientOriginalExtension());
+        $this->image->save($uploadedFile->getPathName(), $this->quality, $this->outputFormat ? $this->outputFormat : $uploadedFile->getClientOriginalExtension());
         $this->image->destroy();
     }
 
@@ -254,12 +255,12 @@ trait TransformableImage
     }
 
     /**
-     * Encodes the image to a webp format.
+     * Encodes the image to the given format.
      *
      * @return void
      */
-    private function convertToWebp()
+    private function convertImage($format)
     {
-        $this->image->encode('webp');
+        $this->image->encode($format);
     }
 }
