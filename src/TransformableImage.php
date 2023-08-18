@@ -173,19 +173,19 @@ trait TransformableImage
     }
 
     /**
-     * Specify the image format.
-     * This only applies to formats that are supported by Intervention.
+     * Specify the desired output image format.
+     * This method sets the output format to be used by Intervention.
      *
      * @throws \Exception
      *
      * @return $this
      */
-    public function convert($format) 
+    public function convert($format)
     {
         if (!in_array($format, $this->allowedExtensions)) {
             throw new \Exception("Unsupported output format: $format");
         }
-    
+        
         $this->outputFormat = $format;
     
         return $this;
