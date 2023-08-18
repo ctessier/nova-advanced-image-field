@@ -218,7 +218,7 @@ trait TransformableImage
             $this->convertToWebp();
         }
 
-        $this->image->save($uploadedFile->getPathName(), $this->quality, $uploadedFile->getClientOriginalExtension());
+        $this->image->save($uploadedFile->getPathName(), $this->quality, $this->webp === true ? 'webp' : $uploadedFile->getClientOriginalExtension());
         $this->image->destroy();
     }
 
