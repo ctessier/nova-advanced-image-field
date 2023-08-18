@@ -186,10 +186,8 @@ trait TransformableImage
             throw new \Exception("Unsupported output format: $format");
         }
         
-        
         $this->outputFormat = $format;
-
-
+        
         return $this;
     }
 
