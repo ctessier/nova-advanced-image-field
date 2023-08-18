@@ -181,10 +181,6 @@ trait TransformableImage
      */
     public function webp()
     {
-        // if (!extension_loaded('exif')) {
-        //     throw new \Exception('The PHP exif extension must be enabled to use the autoOrientate method.');
-        // }
-
         $this->webp = true;
 
         return $this;
@@ -219,7 +215,7 @@ trait TransformableImage
         }
 
         if($this->webp) {
-            $this->covertToWebp();
+            $this->convertToWebp();
         }
 
         $this->image->save($uploadedFile->getPathName(), $this->quality, $uploadedFile->getClientOriginalExtension());
@@ -266,7 +262,7 @@ trait TransformableImage
      *
      * @return void
      */
-    private function covertToWebp() {
+    private function convertToWebp() {
         $this->image->encode('webp');
     }
 }
