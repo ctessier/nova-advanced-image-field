@@ -97,8 +97,6 @@ trait TransformableImage
      */
     public function croppable($param = true)
     {
-        throw new \Exception("Test exception");
-
         if (is_numeric($param)) {
             $this->cropAspectRatio = $param;
             $param = true;
