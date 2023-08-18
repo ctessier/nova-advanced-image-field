@@ -66,6 +66,11 @@ trait TransformableImage
      */
     private $outputFormat;
 
+    /**
+     * Indicates the allowed extensions for the output format.
+     *
+     * @var array
+     */
     private $allowedExtensions = ['jpg', 'png', 'gif', 'tif', 'bmp', 'ico', 'psd', 'webp', 'data-url'];
 
     /**
