@@ -171,11 +171,7 @@ trait TransformableImage
     }
 
     /**
-     * Specify if the underlying image should be orientated.
-     * Rotate the image to the orientation specified in Exif data, if any. Especially useful for smartphones.
-     * This method requires the exif extension to be enabled in your php settings.
-     *
-     * @throws \Exception
+     * Specify if the underlying image should be encoded to the webp format.
      *
      * @return $this
      */
@@ -214,7 +210,7 @@ trait TransformableImage
             $this->resizeImage();
         }
 
-        if($this->webp) {
+        if ($this->webp) {
             $this->convertToWebp();
         }
 
@@ -262,7 +258,8 @@ trait TransformableImage
      *
      * @return void
      */
-    private function convertToWebp() {
+    private function convertToWebp()
+    {
         $this->image->encode('webp');
     }
 }

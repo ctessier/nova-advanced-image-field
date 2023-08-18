@@ -106,7 +106,7 @@ AdvancedImage::make('Photo')->resize(600, 400),
 AdvancedImage::make('Photo')->resize(null, 300),
 ```
 
-*Note: this method uses [Intervention Image `resize()`](https://image.intervention.io/v2/api/resize) with the upsize and aspect ratio constraints.*
+_Note: this method uses [Intervention Image `resize()`](https://image.intervention.io/v2/api/resize) with the upsize and aspect ratio constraints._
 
 ### `autoOrientate()`
 
@@ -118,7 +118,15 @@ This can be mandatory in some cases for the cropper to work properly.
 AdvancedImage::make('Photo')->autoOrientate(),
 ```
 
-*Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](https://image.intervention.io/v2/api/orientate) for more details.*
+### `webp()`
+
+Specify if the underlying image should be encoded and formatted to the webp format.
+
+```php
+AdvancedImage::make('Photo')->webp(),
+```
+
+_Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](https://image.intervention.io/v2/api/orientate) for more details._
 
 ### `quality(int $quality)`
 
@@ -130,4 +138,4 @@ This only applies to JPG format as PNG compression is lossless. The value must r
 AdvancedImage::make('Photo')->resize(600, 400)->quality(95),
 ```
 
-*Note: the quality will be passed to the [Intervention Image `save()`](https://image.intervention.io/v2/api/save) method.*
+_Note: the quality will be passed to the [Intervention Image `save()`](https://image.intervention.io/v2/api/save) method._
