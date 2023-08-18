@@ -122,13 +122,16 @@ _Note: PHP must be compiled in with `--enable-exif` to use this method. Windows 
 
 ### `webp()`
 
-Specify if the underlying image should be encoded and formatted to the webp format.
+Specify the desired output image format.
 
 ```php
-AdvancedImage::make('Photo')->webp(),
+AdvancedImage::make('Photo')->convert('webp'),
 ```
 
-_Note: For WebP support GD driver must be used with PHP 5 >= 5.5.0 or PHP 7 in order to use imagewebp(). If Imagick is used, it must be compiled with libwebp for WebP support._
+\_Note:
+
+1. To see all the supported formats that can be used to convert your files see [Intervention Image `encode()`]:(https://image.intervention.io/v2/api/encode
+2. For WebP support GD driver must be used with PHP 5 >= 5.5.0 or PHP 7 in order to use imagewebp(). If Imagick is used, it must be compiled with libwebp for WebP support.\_
 
 ### `quality(int $quality)`
 
