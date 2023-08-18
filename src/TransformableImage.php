@@ -60,6 +60,13 @@ trait TransformableImage
     private $quality = 90;
 
     /**
+     * Indicates if the image is croppable.
+     *
+     * @var bool
+     */
+    private $webp = false;
+
+    /**
      * The Intervention Image instance.
      *
      * @var \Intervention\Image\Image
@@ -164,6 +171,26 @@ trait TransformableImage
     }
 
     /**
+     * Specify if the underlying image should be orientated.
+     * Rotate the image to the orientation specified in Exif data, if any. Especially useful for smartphones.
+     * This method requires the exif extension to be enabled in your php settings.
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function webp()
+    {
+        // if (!extension_loaded('exif')) {
+        //     throw new \Exception('The PHP exif extension must be enabled to use the autoOrientate method.');
+        // }
+
+        $this->webp = true;
+
+        return $this;
+    }
+
+    /**
      * Transform the uploaded file.
      *
      * @param \Illuminate\Http\UploadedFile $uploadedFile
@@ -189,6 +216,10 @@ trait TransformableImage
 
         if ($this->width || $this->height) {
             $this->resizeImage();
+        }
+
+        if($this->webp) {
+            $this->covertToWebp();
         }
 
         $this->image->save($uploadedFile->getPathName(), $this->quality, $uploadedFile->getClientOriginalExtension());
@@ -228,5 +259,14 @@ trait TransformableImage
     private function orientateImage()
     {
         $this->image->orientate();
+    }
+
+    /**
+     * Encodes the image to a webp format.
+     *
+     * @return void
+     */
+    private function covertToWebp() {
+        $this->image->encode('webp');
     }
 }
