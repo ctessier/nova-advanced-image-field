@@ -118,6 +118,8 @@ This can be mandatory in some cases for the cropper to work properly.
 AdvancedImage::make('Photo')->autoOrientate(),
 ```
 
+_Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](https://image.intervention.io/v2/api/orientate) for more details._
+
 ### `webp()`
 
 Specify if the underlying image should be encoded and formatted to the webp format.
@@ -126,7 +128,7 @@ Specify if the underlying image should be encoded and formatted to the webp form
 AdvancedImage::make('Photo')->webp(),
 ```
 
-_Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](https://image.intervention.io/v2/api/orientate) for more details._
+_Note: For WebP support GD driver must be used with PHP 5 >= 5.5.0 or PHP 7 in order to use imagewebp(). If Imagick is used, it must be compiled with libwebp for WebP support._
 
 ### `quality(int $quality)`
 
