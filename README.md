@@ -120,7 +120,7 @@ AdvancedImage::make('Photo')->autoOrientate(),
 
 _Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](https://image.intervention.io/v2/api/orientate) for more details._
 
-### `webp()`
+### `convert(string $format)`
 
 Specify the desired output image format.
 
@@ -128,10 +128,8 @@ Specify the desired output image format.
 AdvancedImage::make('Photo')->convert('webp'),
 ```
 
-\_Note:
-
-1. To see all the supported formats that can be used to convert your files see [Intervention Image `encode()`]:(https://image.intervention.io/v2/api/encode
-2. For WebP support GD driver must be used with PHP 5 >= 5.5.0 or PHP 7 in order to use imagewebp(). If Imagick is used, it must be compiled with libwebp for WebP support.\_
+_Note 1: To see all the supported formats that can be used to convert your files see [Intervention Image `encode()`]:(https://image.intervention.io/v2/api/encode_
+_Note 2: For WebP support GD driver must be used with PHP 5 >= 5.5.0 or PHP 7 in order to use imagewebp(). If Imagick is used, it must be compiled with libwebp for WebP support._
 
 ### `quality(int $quality)`
 
