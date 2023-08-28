@@ -1,7 +1,7 @@
 <h1 align="center">Nova Advanced Image Field</h1>
 
 <p align="center">
-  <a href="https://github.styleci.io/repos/156091175"><img src="https://github.styleci.io/repos/156091175/shield?branch=1.x" alt="StyleCI" /></a>
+  <a href="https://github.styleci.io/repos/156091175?branch=2.x"><img src="https://github.styleci.io/repos/156091175/shield?branch=2.x" alt="StyleCI"></a>
   <a href="https://packagist.org/packages/ctessier/nova-advanced-image-field"><img src="https://img.shields.io/packagist/v/ctessier/nova-advanced-image-field.svg?style=flat-square" alt="Latest Version on Packagist" /></a>
   <a href="https://packagist.org/packages/ctessier/nova-advanced-image-field"><img src="https://img.shields.io/packagist/dm/ctessier/nova-advanced-image-field.svg?style=flat-square" alt="Total Downloads" /></a>
   <a href="https://packagist.org/packages/ctessier/nova-advanced-image-field"><img src="https://img.shields.io/github/license/ctessier/nova-advanced-image-field?color=%23B2878B&style=flat-square" alt="License" /></a>
@@ -120,19 +120,6 @@ AdvancedImage::make('Photo')->autoOrientate(),
 
 _Note: PHP must be compiled in with `--enable-exif` to use this method. Windows users must also have the mbstring extension enabled. See [the Intervention Image documentation](https://image.intervention.io/v2/api/orientate) for more details._
 
-### `convert(string $format)`
-
-Specify the desired output image format.
-
-```php
-AdvancedImage::make('Photo')->convert('webp'),
-```
-
-_Note: _
-
-- _To see all the supported formats that can be used to convert your files see [Intervention Image `encode()`]:(https://image.intervention.io/v2/api/encode._
-- _For WebP support GD driver must be used with PHP 5 >= 5.5.0 or PHP 7 in order to use imagewebp(). If Imagick is used, it must be compiled with libwebp for WebP support._
-
 ### `quality(int $quality)`
 
 Specify the resulting quality of the transformed image.
@@ -144,3 +131,13 @@ AdvancedImage::make('Photo')->resize(600, 400)->quality(95),
 ```
 
 _Note: the quality will be passed to the [Intervention Image `save()`](https://image.intervention.io/v2/api/save) method._
+
+### `convert(string $format)`
+
+Specify the desired output format.
+
+```php
+AdvancedImage::make('Photo')->convert('webp'),
+```
+
+_Note: See [Intervention Image `encode()`](https://image.intervention.io/v2/api/encode) for more details, including the list of allowed formats._
