@@ -60,18 +60,11 @@ trait TransformableImage
     private $quality = 90;
 
     /**
-     * Indicates if the image is croppable.
+     * The format of the resulting image.
      *
-     * @var bool
+     * @var string
      */
     private $outputFormat;
-
-    /**
-     * Indicates the allowed extensions for the output format.
-     *
-     * @var array
-     */
-    private $allowedExtensions = ['jpg', 'png', 'gif', 'tif', 'bmp', 'ico', 'psd', 'webp', 'data-url'];
 
     /**
      * The Intervention Image instance.
@@ -185,9 +178,12 @@ trait TransformableImage
      *
      * @return $this
      */
-    public function convert($format)
+    public function convert(string $format)
     {
-        if (!in_array($format, $this->allowedExtensions)) {
+        /**
+         * @See https://image.intervention.io/v2/api/encode
+         */
+        if (!in_array($format, ['jpg', 'png', 'gif', 'tif', 'bmp', 'ico', 'psd', 'webp', 'data-url'])) {
             throw new \Exception("Unsupported output format: $format");
         }
 
@@ -228,7 +224,7 @@ trait TransformableImage
             $this->convertImage($this->outputFormat);
         }
 
-        $this->image->save($uploadedFile->getPathName(), $this->quality, $this->outputFormat ? $this->outputFormat : $uploadedFile->getClientOriginalExtension());
+        $this->image->save($uploadedFile->getPathName(), $this->quality, $this->outputFormat ?? $uploadedFile->getClientOriginalExtension());
         $this->image->destroy();
     }
 
@@ -268,12 +264,12 @@ trait TransformableImage
     }
 
     /**
-     * Encodes the image to the given format.
+     * Encode the image to the given format.
      *
      * @return void
      */
-    private function convertImage($format)
+    private function convertImage(string $format)
     {
-        $this->image->encode($format);
+        $this->image->encode($format, $this->quality);
     }
 }
