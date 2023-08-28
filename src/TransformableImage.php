@@ -60,6 +60,13 @@ trait TransformableImage
     private $quality = 90;
 
     /**
+     * The format of the resulting image.
+     *
+     * @var string
+     */
+    private $outputFormat;
+
+    /**
      * The Intervention Image instance.
      *
      * @var \Intervention\Image\Image
@@ -164,6 +171,28 @@ trait TransformableImage
     }
 
     /**
+     * Specify the desired output image format.
+     * This method sets the output format to be used by Intervention.
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function convert(string $format)
+    {
+        /**
+         * @See https://image.intervention.io/v2/api/encode
+         */
+        if (!in_array($format, ['jpg', 'png', 'gif', 'tif', 'bmp', 'ico', 'psd', 'webp', 'data-url'])) {
+            throw new \Exception("Unsupported output format: $format");
+        }
+
+        $this->outputFormat = $format;
+
+        return $this;
+    }
+
+    /**
      * Transform the uploaded file.
      *
      * @param \Illuminate\Http\UploadedFile $uploadedFile
@@ -191,7 +220,11 @@ trait TransformableImage
             $this->resizeImage();
         }
 
-        $this->image->save($uploadedFile->getPathName(), $this->quality, $uploadedFile->getClientOriginalExtension());
+        if ($this->outputFormat) {
+            $this->convertImage($this->outputFormat);
+        }
+
+        $this->image->save($uploadedFile->getPathName(), $this->quality, $this->outputFormat ?? $uploadedFile->getClientOriginalExtension());
         $this->image->destroy();
     }
 
@@ -228,5 +261,15 @@ trait TransformableImage
     private function orientateImage()
     {
         $this->image->orientate();
+    }
+
+    /**
+     * Encode the image to the given format.
+     *
+     * @return void
+     */
+    private function convertImage(string $format)
+    {
+        $this->image->encode($format, $this->quality);
     }
 }
